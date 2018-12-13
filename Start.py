@@ -29,15 +29,8 @@ sys.setrecursionlimit(100000)
 
 
 def main():
-    # Read the dataset
-    X, Y, features = load_data(dset)
-    # normalizes the labels
-    Y = normalizelabels(Y)
-    X = sci2floatFeatures(X)
-    # Shuffle the dataset to mix up the rows.
-    X, Y = shuffle(X, Y, random_state=1)
-    # splits the dataste into test and training parts
-    training_x, test_x, training_y, test_y = train_test_split(X, Y, test_size=0.20, random_state=415)
+
+    training_x, test_x, training_y, test_y = load_data(dset)
 
 
 

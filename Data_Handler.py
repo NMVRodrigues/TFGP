@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from sklearn.utils import shuffle
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_selection import SelectKBest

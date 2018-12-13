@@ -1,5 +1,7 @@
 import tensorflow as tf
-from tensorflow.python.keras.datasets import mnist
+
+a = tf.convert_to_tensor([1,2,3,4,5], preferred_dtype=tf.Variable)
+
 
 def read_split_csv(fname, cols, training_size):
     defaults = [tf.float64] * cols
