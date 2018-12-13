@@ -1,0 +1,40 @@
+dataset_path:
+- F:\\GEEGP\\datasets\\heart.txt
+
+results_path:
+- F:\\GEEGP\\spreadsheets
+
+Individuals_path:
+- F:\\GEEGP\\individuals
+
+# saves the entire population every generation, slows the process but fail safe
+save_every_gen:
+- False
+
+# restores previous run
+restore:
+- False		# restore flag
+- False		# path to the population
+- False		# generation to start in
+
+max_initial_depth:
+- 5
+
+tournament_size:
+- 10
+
+double_tournament:
+- 10		# size
+- 0.7		# probability
+
+tournament_type:
+- 0			# 0 -> standard, 1 -> double
+
+Generations:
+- 100
+
+Population:
+- 500
+
+Initialization:
+- 0		# 0 -> ramped, 1 -> full, 2 -> grow 
