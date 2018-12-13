@@ -1,45 +1,37 @@
 import numpy as np
 import pandas as pd
+from sklearn.utils import shuffle
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2, f_classif
+from sklearn.model_selection import train_test_split
 import csv
 '''
     File that manages the data inputs
 '''
 
 
-# jms
 def load_data(fname):
-    df = pd.read_csv(fname, engine='python')
-    table_X = df.as_matrix().astype(float)
-    #
-    table_y = table_X[:, len(df.columns)-1].astype(int)
-    table_y = table_y.tolist()
-    #table_y = [str(val) for val in table_y]
-    #
-    # assumindo que toas as colunas sao uteis e que a ultima sao as labels
-    table_X = table_X[:, list(range(0,len(df.columns)-1))]
-    print(table_X.shape)
-    #table_X = SelectKBest(f_classif, k=72).fit_transform(table_X, table_y)
-    #print(table_X.shape)
-    #table_X = table_X.tolist()
-    #table_X = [[str(val) for val in row] for row in table_X]
-    #
+    # reads into dataframe
+    df = pd.read_csv(fname, dtype=np.float64, engine='python', header=None)
+    # shuffles da dataset
+    df = shuffle(df,random_state=1)
+    # split into training and test
+    train, test = train_test_split(df, test_size=0.3)
+    # save tensors
+    train_cols = []
+    test_cols = []
+    to_tensor = tf.convert_to_tensor
+    appendTrn = train_cols.append
+    appendTst = test_cols.append
+    for i in range(len(train.columns)):
+        appendTrn(to_tensor(train[i]))
+    train_labels = train_cols[-1]
+    for i in range(len(test.columns)):
+        appendTst(to_tensor(test[i]))
+    test_labels = test_cols[-1]
 
-    # encoder = LabelEncoder()
-    # encoder.fit(table_y)
-    # y = encoder.transform(table_y)
-    # Y = one_hot_encode(y)
-    #print(table_X.shape)
-
-
-    features = df.columns.values
-    features = np.delete(features,0)
-    features = features.tolist()
-    features.pop()
-    #
-    return table_X, table_y, features
+    return train_cols, train_labels, test_cols, test_labels
 
 
 # makes labels 0 and 1
