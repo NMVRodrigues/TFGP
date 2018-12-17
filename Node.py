@@ -42,16 +42,16 @@ ROSSOVERPERCENT = 0.95     # probabilidade de crossover
 
 
 def getCol(x, t):
-    if isinstance(x, float):
+    if isinstance(x, float):    # se for literal
         if not t:
-            return [x for i in range(len(cols[:, 0].tolist()))]
+            return [x for i in range(len(cols[0].numpy()))]
         else:
-            return [x for i in range(len(tcols[:, 0].tolist()))]
+            return [x for i in range(len(tcols[0].numpy()))]
     else:
         if not t:
-            return cols[:, x].tolist()
+            return cols[x]
         else:
-            return tcols[:, x].tolist()
+            return tcols[x]
 
 
 # performs the mutation operator
@@ -114,19 +114,6 @@ def applysurvival(parents, offspring, popsize):
     return newgen[:popsize]
 
 
-# creates a list of individuals, calculates their fitness and sorts them by it
-def generatepop(popsize):
-    treeList = []
-    for i in range(0, popsize):
-        t = Node()
-        t.full(0) if rand.randint(0, 1) == 0 else t.growth(0)
-        treeList.append((t, t.fitness(), t.number_of_nodes(), t.accuracy(), t.testAccuracy()))
-    treeList = sorted(treeList, key=lambda x: x[1])
-    return treeList
-
-
-
-
 def applyoperators(parents, popsize):
     offspring = []
     while(len(offspring) < popsize):
@@ -160,87 +147,6 @@ def applyoperators(parents, popsize):
     offspring = sorted(offspring, key=lambda x: x[1])
     return offspring
 
-def applyoperators2(parents, popsize):
-    offspring = []
-    v = [1,1]
-    while(len(offspring) < popsize):
-        if len(parents) >= 2:
-            total = sum(v)
-            rnd = rand.uniform(0, total)
-            index = 0
-            while rnd > v[index]:
-                rnd = rnd - v[index]
-                index = index + 1
-            if index == 0:
-                (x, y, z, a, at) = parents[rand.randint(0, len(parents) - 1)]
-                parent = copy.deepcopy(x)
-                parents.remove((x, y, z, a, at))
-                fp = parent.fitness()
-                mutation(parent)
-                fs = parent.fitness()
-                if fs > fp:
-                    if v[0] + 1 < 500:
-                        v[0] += 1
-                    else:
-                        v[0] = 500
-                else:
-                    if v[0] - v[0] * 0.05 > 0.1:
-                        v[0] = v[0] - v[0]*0.05
-                    else:
-                        v[0] = 0.1
-                offspring.append((parent,parent.fitness(), parent.number_of_nodes(),
-                                    parent.accuracy(), parent.testAccuracy()))
-            else:
-                (x, y, z, a, at) = parents[rand.randint(0, len(parents) - 1)]
-                parent = copy.deepcopy(x)
-                parents.remove((x, y, z, a, at))
-                fp = parent.fitness()
-                (x1, y1, z1, a1, at1) = parents[rand.randint(0, len(parents)-1)]
-                parent1 = copy.deepcopy(x1)
-                parents.remove((x1, y1, z1, a1, at1))
-                fp1 = parent1.fitness()
-                crossover(parent1,parent)
-                fs = parent.fitness()
-                fs1 = parent.fitness()
-                if statistics.mean([fs, fs1]) > statistics.mean([fp, fp1]):
-                    if v[1]+1 < 500:
-                        v[1] += 1
-                    else:
-                        v[1] = 500
-                else:
-                    if v[1] - v[1] * 0.05 > 0.1:
-                        v[1] = v[1] - v[1] * 0.05
-                    else:
-                        v[1] = 0.1
-
-                offspring.append((parent1, parent1.fitness(), parent1.number_of_nodes(),
-                                  parent1.accuracy(), parent1.testAccuracy()))
-                offspring.append((parent, parent.fitness(), parent.number_of_nodes(),
-                                  parent.accuracy(), parent.testAccuracy()))
-        else:
-            (x, y, z, a, at) = parents[rand.randint(0, len(parents) - 1)]
-            parent = copy.deepcopy(x)
-            parents.remove((x, y, z, a, at))
-            fp = parent.fitness()
-            mutation(parent)
-            fs = parent.fitness()
-            if fs > fp:
-                if v[0] + 1 < 500:
-                    v[0] += 1
-                else:
-                    v[0] = 500
-            else:
-                if v[0] - v[0] * 0.05 > 0.1:
-                    v[0] = v[0] - v[0]*0.05
-                else:
-                    v[0] = 0.1
-            offspring.append((parent, parent.fitness(), parent.number_of_nodes(),
-                                  parent.accuracy(), parent.testAccuracy()))
-    offspring = sorted(offspring, key=lambda x: x[1])
-    return offspring, v
-
-
-
 
 class Node(object):
     def __init__(self):
@@ -273,11 +179,11 @@ class Node(object):
 
         return self
 
-
+    #TODO -> tratar disto, parece mal
     # creates a tree using the growth method
     def growth(self, depth):
         if depth == maxDepth:
-            if rand.random() < 0.000000001:
+            if rand.random() > 3:   #garante que não ah terminais 
                 self.value = rand.random()
             else:
                 self.value = rand.randint(0, ncols - 1)
@@ -285,7 +191,7 @@ class Node(object):
             if self.left == None:
                 if rand.randint(0, 1) == 0:
                     #if rand.random() < 1 / len(cols[:, 0].tolist()):
-                    if rand.random() < 0.000000001:
+                    if rand.random() > 3:   # same thing
                         self.value = rand.random()
                     else:
                         self.value = rand.randint(0, ncols - 1)
