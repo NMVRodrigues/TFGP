@@ -18,7 +18,7 @@ def load_data(fname):
     # shuffles da dataset
     df = shuffle(df,random_state=1)
     # split into training and test
-    train, test = train_test_split(df, test_size=0.3)
+    train, test = train_test_split(df, test_size=0.3, shuffle=False)
     # save tensors
     train_cols = []
     test_cols = []

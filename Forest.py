@@ -1,6 +1,12 @@
 #this file will create the forest
 from Node import *
 import math
+import threading
+
+
+def Generate_forest(popsize, forest_type):
+    pass
+
 
 def RampedForest(popsize):
     full_size = math.ceil(popsize/2)
@@ -17,11 +23,3 @@ def RampedForest(popsize):
 
 
 
-def generatepop(popsize):
-    treeList = []
-    for i in range(0, popsize):
-        t = Node()
-        t.full(0) if rand.randint(0, 1) == 0 else t.growth(0)
-        treeList.append((t, t.fitness(), t.number_of_nodes(), t.accuracy(), t.testAccuracy()))
-    treeList = sorted(treeList, key=lambda x: x[1])
-    return treeList
