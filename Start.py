@@ -5,6 +5,7 @@ import sys
 import os.path
 import Node as n
 import pickle as cPickle
+import tensorflow as tf
 
 
 
@@ -30,7 +31,8 @@ sys.setrecursionlimit(100000)
 
 def main():
 
-    training_x, test_x, training_y, test_y = load_data(dset)
+    tf.enable_eager_execution()
+    training_x, training_y, test_x, test_y = load_data(dset)
 
 
 

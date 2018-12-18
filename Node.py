@@ -7,28 +7,29 @@ def setTrainingCols(var):
     global cols
     global ncols
     cols = var
-    ncols = len(cols[0])
+    ncols = len(cols[0].numpy())
 
 
 def setTrainingLabels(var):
     global labels
     global nlabels
     labels = var
-    nlabels = len(labels)
+    nlabels = len(labels.numpy())
 
 
 def setTestCols(var):
     global tcols
     global tncols
     tcols = var
-    tncols = len(tcols[0])
+    print(tcols)
+    tncols = len(tcols[0].numpy())
 
 
 def setTestLabels(var):
     global tlabels
     global tnlabels
     tlabels = var
-    tnlabels = len(tlabels)
+    tnlabels = len(tlabels.numpy())
 
 #------------------------------------
 
@@ -172,14 +173,10 @@ class Node(object):
                 self.value = rand.randint(0, ncols - 1)
         else:
             self.value = rand.choice(biFunctions)
-            self.left = Node()
-            self.right = Node()
-            self.left.full(depth+1)
-            self.right.full(depth+1)
-
+            self.left = Node().full(depth+1)
+            self.right = Node().full(depth+1)
         return self
 
-    #TODO -> tratar disto, parece mal
     # creates a tree using the growth method
     def growth(self, depth):
         if depth == maxDepth:
@@ -190,7 +187,6 @@ class Node(object):
         else:
             if self.left == None:
                 if rand.randint(0, 1) == 0:
-                    #if rand.random() < 1 / len(cols[:, 0].tolist()):
                     if rand.random() > 3:   # same thing
                         self.value = rand.random()
                     else:
@@ -198,25 +194,19 @@ class Node(object):
                 else:
                     if rand.randint(0,1) == 0:
                         self.value = rand.choice(uniFunctions)
-                        self.left = Node()
-                        self.left.growth(depth+1)
+                        self.left = Node().growth(depth+1)
                     else:
                         self.value = rand.choice(biFunctions)
-                        self.left = Node()
-                        self.right = Node()
-                        self.left.full(depth + 1)
-                        self.right.full(depth + 1)
+                        self.left = Node().full(depth + 1)
+                        self.right = Node().full(depth + 1)
             else:
                 if rand.randint(0, 1) == 0:
                     self.value = rand.choice(uniFunctions)
-                    self.left = Node()
-                    self.left.growth(depth + 1)
+                    self.left = Node().growth(depth + 1)
                 else:
                     self.value = rand.choice(biFunctions)
-                    self.left = Node()
-                    self.right = Node()
-                    self.left.full(depth + 1)
-                    self.right.full(depth + 1)
+                    self.left = Node().full(depth + 1)
+                    self.right = Node().full(depth + 1)
         return self
 
     # gets the number of nodes on the tree
@@ -258,24 +248,24 @@ class Node(object):
         (self.right.printTree() if self.right is not None else 0)
 
     # calculates the tree
-    '''def calculate(self, result, test):
+    def calculate(self, result, test):
         if self.isLeaf():
             result = getCol(self.value, test)
-        if self.value in biFunctions:
-            if self.value == '+':
-                result = myadd(self.left.calculate(result, test), self.right.calculate(result, test))
-            elif self.value == '-':
-                result = mysub(self.left.calculate(result, test), self.right.calculate(result, test))
-            elif self.value == '*':
-                result = mymul(self.left.calculate(result, test), self.right.calculate(result, test))
-            else:
+        else:
+            op = self.value
+            if op == '+':
+                result = self.left.calculate(result, test) + self.right.calculate(result, test)
+            elif op == '-':
+                result = self.left.calculate(result, test) - self.right.calculate(result, test)
+            elif op == '*':
+                result = self.left.calculate(result, test) * self.right.calculate(result, test)
+            elif op == '//':
                 result = mydiv(self.left.calculate(result, test), self.right.calculate(result, test))
-        elif self.value in uniFunctions:
-            if self.value == 'ln':
+            elif op == 'ln':
                 result = myln(self.left.calculate(result, test))
             else:
                 result = mysqrt(self.left.calculate(result, test))
-        return result'''
+        return result
 
     # calculates the fitness of the tree
     def fitness(self):
