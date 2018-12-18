@@ -27,10 +27,10 @@ def load_data(fname):
     appendTst = test_cols.append
     for i in range(len(train.columns)):
         appendTrn(to_tensor(train[i]))
-    train_labels = train_cols[-1]
+    train_labels = train_cols.pop(-1)
     for i in range(len(test.columns)):
         appendTst(to_tensor(test[i]))
-    test_labels = test_cols[-1]
+    test_labels = test_cols.pop(-1)
 
     return train_cols, train_labels, test_cols, test_labels
 

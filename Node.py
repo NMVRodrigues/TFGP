@@ -2,12 +2,16 @@ import tensorflow as tf
 import random as rand
 import copy
 import statistics
+from TF_Fixes import divide, ln, sqrt
+
+global cols
+global ncols
 
 def setTrainingCols(var):
     global cols
     global ncols
     cols = var
-    ncols = len(cols[0].numpy())
+    ncols = len(cols)
 
 
 def setTrainingLabels(var):
@@ -21,8 +25,7 @@ def setTestCols(var):
     global tcols
     global tncols
     tcols = var
-    print(tcols)
-    tncols = len(tcols[0].numpy())
+    tncols = len(tcols)
 
 
 def setTestLabels(var):
@@ -80,34 +83,6 @@ def crossover(t1,t2):
     parent2 = t2.getNode(chosen2)
     refactTree(parent1, parent2)
     return t1,t2
-
-
-def tournament(parents, popsize, tsize):
-    chosen = []
-    while(len(chosen) < popsize):
-        r = [rand.randint(0,popsize-1) for x in range(0,tsize)]
-        chosen.append(parents[min(r)])
-    return chosen
-
-
-def doubleTournament(parents, popsize):
-    chosen = []
-    parents = sorted(parents, key=lambda x: x[2])
-    #print("sorted: ", '\n')
-    #for i in parents:
-    #    print(i[2])
-    while (len(chosen) < popsize):
-        r = [rand.randint(0, popsize - 1) for x in range(0, 2)]
-     #   print("first: ", parents[r[0]][2])
-     #   print("second: ", parents[r[1]][2])
-        if rand.random() < D:
-      #      print("choice: ", parents[min(r)][2], '\n')
-            chosen.append(parents[min(r)])
-        else:
-       #     print("choice: ", parents[max(r)][2], '\n')
-            chosen.append(parents[max(r)])
-    chosen = sorted(chosen, key=lambda x: x[1])
-    return chosen
 
 
 def applysurvival(parents, offspring, popsize):
@@ -260,11 +235,11 @@ class Node(object):
             elif op == '*':
                 result = self.left.calculate(result, test) * self.right.calculate(result, test)
             elif op == '//':
-                result = mydiv(self.left.calculate(result, test), self.right.calculate(result, test))
+                result = divide(self.left.calculate(result, test), self.right.calculate(result, test))
             elif op == 'ln':
-                result = myln(self.left.calculate(result, test))
+                result = ln(self.left.calculate(result, test))
             else:
-                result = mysqrt(self.left.calculate(result, test))
+                result = sqrt(self.left.calculate(result, test))
         return result
 
     # calculates the fitness of the tree

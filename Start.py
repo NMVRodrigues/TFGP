@@ -6,6 +6,7 @@ import os.path
 import Node as n
 import pickle as cPickle
 import tensorflow as tf
+import Forest as forest
 
 
 
@@ -19,7 +20,7 @@ csvname = "heart.csv"                       # nome do dataset
 savename = "hrtSINGULAR"                         # nome do ficheiro a gravar
 loadname = "lastgenSara.p"                         # nome do ficheiro a carregar
 graphname = "hrtSINGULAR"
-dsetpath = "F:\GEEGP\datasets"              #
+dsetpath = "~\\Desktop\\GEEGP\\datasets"              #
 fpath = "F:\GEEGP\STGP\individuals"              #
 graphpath = "F:\GEEGP\STGP\graphs"
 dset = os.path.join(dsetpath, csvname)      #
@@ -37,13 +38,21 @@ def main():
 
 
 
+
     n.setTrainingCols(training_x)
     n.setTrainingLabels(training_y)
     n.setTestCols(test_x)
     n.setTestLabels(test_y)
 
-    t = n.Node().full(0)
-    t.printTree()
+    #t = n.Node().full(0)
+    #t.printTree()
+    #print('\n', '\n')
+    #print(t.calculate(0, False))
+
+    treelist = forest.Generate_forest(500, 'RampedForest')
+
+    print(treelist, '\n')
+    print(len(treelist))
 
 
 if __name__ == "__main__":

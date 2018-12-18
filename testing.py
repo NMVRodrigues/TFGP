@@ -16,13 +16,29 @@ def withdraw(balance, lock):
         balance.value = balance.value - 1
         lock.release()
 
+def add2(s):
+	for i in range(0,10):
+		s.append(2)
+	
+
+def add1(s):
+    for i in range(0,10):
+        s.append(1)
+    
+
+def main():
+	#balance = threading.Value('i', 200)
+    #lock = threading.Lock()
+	temp = []
+	d = threading.Thread(target=add1, args=(temp,))
+	w = threading.Thread(target=add2, args=(temp,))
+	d.start()
+	w.start()
+	d.join()
+	w.join()
+	print(temp)
+	print(len(temp))
+
+
 if __name__ == '__main__':
-    balance = threading.Value('i', 200)
-    lock = threading.Lock()
-    d = threading.Thread(target=deposit, args=(balance,lock))
-    w = threading.Thread(target=withdraw, args=(balance,lock))
-    d.start()
-    w.start()
-    d.join()
-    w.join()
-    print(balance.value)
+	main()
