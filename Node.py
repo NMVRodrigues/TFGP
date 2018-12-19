@@ -46,7 +46,7 @@ tnlabels = len(tlabels.numpy())
 
 biFunctions = ['+', '-', '*', '//']
 uniFunctions = ['ln', 'sqrt']
-maxDepth = 2
+maxDepth = 5
 D = 0.7
 MUTATIONPERCENT = 0.05      # probabilidade de mutacao
 ROSSOVERPERCENT = 0.95     # probabilidade de crossover
