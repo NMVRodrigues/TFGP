@@ -3,36 +3,44 @@ import random as rand
 import copy
 import statistics
 from TF_Fixes import divide, ln, sqrt
+from Start import training_x, training_y, test_x, test_y
 
-global cols
-global ncols
-
-def setTrainingCols(var):
-    global cols
-    global ncols
-    cols = var
-    ncols = len(cols)
-
-
-def setTrainingLabels(var):
-    global labels
-    global nlabels
-    labels = var
-    nlabels = len(labels.numpy())
+cols = training_x
+ncols = len(cols)
+labels = training_y
+nlabels = len(labels.numpy())
+tcols = test_x
+tncols = len(tcols)
+tlabels = test_y
+tnlabels = len(tlabels.numpy())
 
 
-def setTestCols(var):
-    global tcols
-    global tncols
-    tcols = var
-    tncols = len(tcols)
+#def setTrainingCols(var):
+#    global cols
+#    global ncols
+#    cols = var
+#    ncols = len(cols)
 
 
-def setTestLabels(var):
-    global tlabels
-    global tnlabels
-    tlabels = var
-    tnlabels = len(tlabels.numpy())
+#def setTrainingLabels(var):
+#    global labels
+#    global nlabels
+#    labels = var
+#    nlabels = len(labels.numpy())
+
+
+#def setTestCols(var):
+#    global tcols
+#    global tncols
+#    tcols = var
+#    tncols = len(tcols)
+
+
+#def setTestLabels(var):
+#    global tlabels
+#    global tnlabels
+#    tlabels = var
+#    tnlabels = len(tlabels.numpy())
 
 #------------------------------------
 

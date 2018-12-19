@@ -28,21 +28,23 @@ save = os.path.join(fpath,savename)         #
 load = os.path.join(fpath,loadname)         #
 sys.setrecursionlimit(100000)
 
+tf.enable_eager_execution()
+training_x, training_y, test_x, test_y = load_data(dset)
 
 
 def main():
 
-    tf.enable_eager_execution()
-    training_x, training_y, test_x, test_y = load_data(dset)
+    #tf.enable_eager_execution()
+    #training_x, training_y, test_x, test_y = load_data(dset)
 
 
 
 
 
-    n.setTrainingCols(training_x)
-    n.setTrainingLabels(training_y)
-    n.setTestCols(test_x)
-    n.setTestLabels(test_y)
+    #n.setTrainingCols(training_x)
+    #n.setTrainingLabels(training_y)
+    #n.setTestCols(test_x)
+    #n.setTestLabels(test_y)
 
     #t = n.Node().full(0)
     #t.printTree()
