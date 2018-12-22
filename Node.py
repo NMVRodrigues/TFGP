@@ -15,38 +15,11 @@ tlabels = test_y
 tnlabels = len(tlabels.numpy())
 
 
-#def setTrainingCols(var):
-#    global cols
-#    global ncols
-#    cols = var
-#    ncols = len(cols)
-
-
-#def setTrainingLabels(var):
-#    global labels
-#    global nlabels
-#    labels = var
-#    nlabels = len(labels.numpy())
-
-
-#def setTestCols(var):
-#    global tcols
-#    global tncols
-#    tcols = var
-#    tncols = len(tcols)
-
-
-#def setTestLabels(var):
-#    global tlabels
-#    global tnlabels
-#    tlabels = var
-#    tnlabels = len(tlabels.numpy())
-
 #------------------------------------
 
 biFunctions = ['+', '-', '*', '//']
 uniFunctions = ['ln', 'sqrt']
-maxDepth = 5
+maxDepth = 2
 D = 0.7
 MUTATIONPERCENT = 0.05      # probabilidade de mutacao
 ROSSOVERPERCENT = 0.95     # probabilidade de crossover
@@ -65,71 +38,6 @@ def getCol(x, t):
         else:
             return tcols[x]
 
-
-# performs the mutation operator
-def mutation(node):
-    chosen = rand.randint(0, node.number_of_nodes()-1)
-    node.mutate(chosen)
-    return node
-
-
-def refactTree(n1,n2):
-    temp = copy.deepcopy(n1)
-    n1.value = n2.value
-    n1.left = n2.left
-    n1.right = n2.right
-    n2.value = temp.value
-    n2.left = temp.left
-    n2.right = temp.right
-    return n1, n2
-
-
-def crossover(t1,t2):
-    chosen1 = rand.randint(0, t1.number_of_nodes() - 1)
-    chosen2 = rand.randint(0, t2.number_of_nodes() - 1)
-    parent1 = t1.getNode(chosen1)
-    parent2 = t2.getNode(chosen2)
-    refactTree(parent1, parent2)
-    return t1,t2
-
-
-def applysurvival(parents, offspring, popsize):
-    newgen = sorted(parents + offspring, key=lambda x: x[1])
-    return newgen[:popsize]
-
-
-def applyoperators(parents, popsize):
-    offspring = []
-    while(len(offspring) < popsize):
-        if len(parents) >= 2:
-            if rand.random() <= MUTATIONPERCENT:
-                (x, y, z, a, at ) = parents[rand.randint(0,len(parents)-1)]
-                parent = copy.deepcopy(x)
-                parents.remove((x, y, z, a, at))
-                mutation(parent)
-                offspring.append((parent,parent.fitness(), parent.number_of_nodes(),
-                                  parent.accuracy(), parent.testAccuracy()))
-            else:
-                (x1, y1, z1, a1, at1) = parents[rand.randint(0, len(parents)-1)]
-                parent1 = copy.deepcopy(x1)
-                parents.remove((x1, y1, z1, a1, at1))
-                (x2, y2, z2, a2, at2) = parents[rand.randint(0, len(parents)-1)]
-                parent2 = copy.deepcopy(x2)
-                parents.remove((x2, y2, z2, a2, at2))
-                crossover(parent1,parent2)
-                offspring.append((parent1, parent1.fitness(), parent1.number_of_nodes(),
-                                  parent1.accuracy(), parent1.testAccuracy()))
-                offspring.append((parent2, parent2.fitness(), parent2.number_of_nodes(),
-                                  parent2.accuracy(), parent2.testAccuracy()))
-        else:
-            (x, y, z, a, at) = parents[rand.randint(0, len(parents)-1)]
-            parent = copy.deepcopy(x)
-            parents.remove((x, y, z, a, at))
-            mutation(parent)
-            offspring.append((parent, parent.fitness(), parent.number_of_nodes(),
-                              parent.accuracy(), parent.testAccuracy()))
-    offspring = sorted(offspring, key=lambda x: x[1])
-    return offspring
 
 
 class Node(object):
@@ -213,7 +121,6 @@ class Node(object):
     # mutates a node by growing it
     def mutate(self, i):
         if i == 0:
-            #TODO -> replace growth2 after tests for growth
             self.growth(0)
             return
         ls = (self.left.number_of_nodes() if self.left is not None else 0)
@@ -229,6 +136,16 @@ class Node(object):
         print(self.value)
         (self.left.printTree() if self.left is not None else 0)
         (self.right.printTree() if self.right is not None else 0)
+        # prints the tree
+
+    #def printTree2(self):
+        #print("(  %s  " % self.value, (self.left.printTree2() if self.left is not None else 0),(self.right.printTree2() if self.right is not None else 0),"  )" , end="", flush=True)
+    #def printTree2(self):
+    #    if self.isLeaf():
+    #        print(self.value, end='')
+    #    else:
+    #        print('( ',self.value, ' ', self.left.printTree2(), ' ', (self.right.printTree2() if self.right is not None else 0), ' )', end='')
+        
 
     # calculates the tree
     def calculate(self, result, test):
@@ -263,11 +180,11 @@ class Node(object):
         correct = 0
         result = self.calculate(0, False)
         for x in range(len(result)):
-            if result[x] < 0.5:
+            if result[x] < 0.5: #TODO -> por isto nos tf fix para nao ter de fazer loop
                 r = 0
             else:
                 r = 1
-            if int(r) == int(labels[x]):
+            if r == int(labels[x]):
                 correct += 1
         return (correct / len(labels)) * 100
 
@@ -280,6 +197,6 @@ class Node(object):
                 r = 0
             else:
                 r = 1
-            if int(r) == int(tlabels[x]):
+            if r == int(tlabels[x]):
                 correct += 1
         return (correct / len(tlabels)) * 100

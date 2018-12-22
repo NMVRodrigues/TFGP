@@ -1,5 +1,6 @@
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 
 def read_split_csv(fname, cols, rows, training_size):

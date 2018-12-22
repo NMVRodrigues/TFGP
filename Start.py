@@ -16,11 +16,11 @@ tsize = 5                                   # tamanho do torneio
 ngens = 100                                  # numero de geracoes
 ttype = 2                                   # tipo de tornei, 1 -> standard, 2 -> double
 resume = False
-csvname = "GP_Data_Sara.csv"                       # nome do dataset
+csvname = "heart.csv"                       # nome do dataset
 savename = "hrtSINGULAR"                         # nome do ficheiro a gravar
 loadname = "lastgenSara.p"                         # nome do ficheiro a carregar
 graphname = "hrtSINGULAR"
-dsetpath = "~\\Desktop\\GEEGP\\datasets"              #
+dsetpath = "F:\\GEEGP\\datasets"              #
 fpath = "F:\GEEGP\STGP\individuals"              #
 graphpath = "F:\GEEGP\STGP\graphs"
 dset = os.path.join(dsetpath, csvname)      #
@@ -46,15 +46,15 @@ def main():
     #n.setTestCols(test_x)
     #n.setTestLabels(test_y)
 
-    #t = n.Node().full(0)
-    #t.printTree()
-    #print('\n', '\n')
-    #print(t.calculate(0, False))
+    t = n.Node().full(0)
+    t.printTree()
+    print('\n', '\n')
+    t.printTree2()
 
-    treelist = forest.Generate_forest(500, 'RampedForest')
+    #treelist = forest.Generate_forest(500, 'RampedForest')
 
     #print(treelist, '\n')
-    print(len(treelist), '\n')
+    #print(len(treelist), '\n')
     #print(treelist[0][0].printTree(),'\n')
     #print(treelist[0][1],'\n')
     #print(treelist[0][2])

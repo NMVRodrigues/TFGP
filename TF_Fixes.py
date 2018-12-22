@@ -19,3 +19,7 @@ def sqrt(x):
     result = tf.where(abs(x) < 0., x, tf.sqrt(x)) # result = where(abs(value) <= 0., value, log(value))
     return result
 
+def binary_round(x):
+    result = tf.where(x >= 0.5, x/x, x*0) # result = where(value >= 0.5, 1, 0)
+    return result
+
