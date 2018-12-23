@@ -20,6 +20,6 @@ def sqrt(x):
     return result
 
 def binary_round(x):
-    result = tf.where(x >= 0.5, x/x, x*0) # result = where(value >= 0.5, 1, 0)
+    result = tf.where(x >= 0.5, x/x, abs(x*0)) # result = where(value >= 0.5, 1, 0)
     return result
 

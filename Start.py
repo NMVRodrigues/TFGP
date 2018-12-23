@@ -16,7 +16,7 @@ tsize = 5                                   # tamanho do torneio
 ngens = 100                                  # numero de geracoes
 ttype = 2                                   # tipo de tornei, 1 -> standard, 2 -> double
 resume = False
-csvname = "heart.csv"                       # nome do dataset
+csvname = "sample.csv"                       # nome do dataset
 savename = "hrtSINGULAR"                         # nome do ficheiro a gravar
 loadname = "lastgenSara.p"                         # nome do ficheiro a carregar
 graphname = "hrtSINGULAR"
@@ -49,7 +49,9 @@ def main():
     t = n.Node().full(0)
     t.printTree()
     print('\n', '\n')
-    t.printTree2()
+    print(t.fitness())
+    print('\n', '\n')
+    print(t.accuracy())
 
     #treelist = forest.Generate_forest(500, 'RampedForest')
 

@@ -2,7 +2,7 @@ import tensorflow as tf
 import random as rand
 import copy
 import statistics
-from TF_Fixes import divide, ln, sqrt
+from TF_Fixes import *
 from Start import training_x, training_y, test_x, test_y
 
 cols = training_x
@@ -136,7 +136,6 @@ class Node(object):
         print(self.value)
         (self.left.printTree() if self.left is not None else 0)
         (self.right.printTree() if self.right is not None else 0)
-        # prints the tree
 
     #def printTree2(self):
         #print("(  %s  " % self.value, (self.left.printTree2() if self.left is not None else 0),(self.right.printTree2() if self.right is not None else 0),"  )" , end="", flush=True)
@@ -170,33 +169,20 @@ class Node(object):
     # calculates the fitness of the tree
     def fitness(self):
         result = self.calculate(0, False)
-        acc = 0
-        for i in range(len(result)):
-            acc += (float(labels[i]) - float(result[i])) ** 2
-        return acc / nlabels
+        return tf.losses.mean_squared_error(labels,result).numpy()
 
     # calculates the training accuracy
     def accuracy(self):
-        correct = 0
-        result = self.calculate(0, False)
-        for x in range(len(result)):
-            if result[x] < 0.5: #TODO -> por isto nos tf fix para nao ter de fazer loop
-                r = 0
-            else:
-                r = 1
-            if r == int(labels[x]):
-                correct += 1
-        return (correct / len(labels)) * 100
+        # mete 1 e 0
+        result = binary_round(self.calculate(0, False))
+        # subtrai e compara os nao zero, numero de errados
+        mistaken = tf.count_nonzero(labels - result).numpy()
+        return (1-(mistaken / nlabels)) * 100
 
     # calculates the test accuracy
     def testAccuracy(self):
-        correct = 0
-        result = self.calculate(0, True)
-        for x in range(len(result)):
-            if result[x] < 0.5:
-                r = 0
-            else:
-                r = 1
-            if r == int(tlabels[x]):
-                correct += 1
-        return (correct / len(tlabels)) * 100
+        # mete 1 e 0
+        result = binary_round(self.calculate(0, True))
+        # subtrai e compara os nao zero, numero de errados
+        mistaken = tf.count_nonzero(tlabels - result).numpy()
+        return (1-(mistaken / tnlabels)) * 100
