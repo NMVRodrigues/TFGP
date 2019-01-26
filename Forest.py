@@ -37,41 +37,46 @@ def Generate_forest(popsize, forest_type):
     #for inner in lst_iter:
     #    tree_lst += inner
     #print("--- %s seconds3 ---" % (time.time() - start_time))
-    #treeList = sorted(full + grow, key=lambda x: x[1])
+    tree_lst = sorted(tree_lst, key=lambda x: x[3])
     return tree_lst
 
-def RampedForest(popsize):
+def RampedForest(popsize, tree_lst):
     full_size = int(math.ceil(popsize/2))
     grow_size = popsize - full_size
-    full = []
-    grow = []
-    appendf = full.append
-    appendg = grow.append
+    append = tree_lst.append
     for _ in range(full_size):
         t = n.Node().full(0)
-        n = t.number_of_nodes()
+        nn = t.number_of_nodes()
         c = t.calculate(0, False)
-        appendf((t, n, c))
+        f = t.fitness(c)
+        append((t,nn,c,f))
     for _ in range(grow_size):
-        t = n.Node().growth(0)
-        appendg((t, t.number_of_nodes(), t.calculate(0, False)))    
-    return full+grow
+        t = n.Node().full(0)
+        nn = t.number_of_nodes()
+        c = t.calculate(0, False)
+        f = t.fitness(c)
+        append((t,nn,c,f))
+    return tree_lst
 
-def FullForest(popsize):
-    full = []
-    appendf = full.append
+def FullForest(popsize, tree_lst):
+    append = tree_lst.append
     for _ in range(popsize):
         t = n.Node().full(0)
-        appendf((t, t.number_of_nodes(), t.calculate(0, False)))
-    return full
+        nn = t.number_of_nodes()
+        c = t.calculate(0, False)
+        f = t.fitness(c)
+        append((t,nn,c,f))
+    return tree_lst
 
-def GrowForest(popsize):
-    grow = []
-    appendg = grow.append
+def GrowForest(popsize, tree_lst):
+    append = tree_lst.append
     for _ in range(popsize):
-        t = n.Node().growth(0)
-        appendg((t, t.number_of_nodes(), t.calculate(0, False)))
-    return grow
+        t = n.Node().full(0)
+        nn = t.number_of_nodes()
+        c = t.calculate(0, False)
+        f = t.fitness(c)
+        append((t,nn,c,f))
+    return tree_lst
 
 
 #def test(popsize, treelist):

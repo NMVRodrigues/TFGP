@@ -62,18 +62,6 @@ def normalizeFeatures(X):
         X[i] = (X[i] - minV) / (maxV - minV)
     return X
 
-
-def sci2floatFeatures(X):
-    for row in X:
-        for x in row:
-            x = format(x, 'f')
-    return X
-
-def sci2floatLabels(X):
-    for v in X:
-        v = format(v, 'f')
-    return X
-
 # Reading the dataset
 def read_dataset(fname):
     df = pd.read_csv(fname, engine='python')

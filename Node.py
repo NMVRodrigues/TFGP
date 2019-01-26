@@ -167,22 +167,21 @@ class Node(object):
         return result
 
     # calculates the fitness of the tree
-    def fitness(self):
-        result = self.calculate(0, False)
+    def fitness(self, result):
         return tf.losses.mean_squared_error(labels,result).numpy()
 
     # calculates the training accuracy
-    def accuracy(self):
+    def accuracy(self, result):
         # mete 1 e 0
-        result = binary_round(self.calculate(0, False))
+        result = binary_round(result)
         # subtrai e compara os nao zero, numero de errados
         mistaken = tf.count_nonzero(labels - result).numpy()
         return (1-(mistaken / nlabels)) * 100
 
     # calculates the test accuracy
-    def testAccuracy(self):
+    def testAccuracy(self, result):
         # mete 1 e 0
-        result = binary_round(self.calculate(0, True))
+        result = binary_round(result)
         # subtrai e compara os nao zero, numero de errados
         mistaken = tf.count_nonzero(tlabels - result).numpy()
         return (1-(mistaken / tnlabels)) * 100

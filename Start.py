@@ -34,32 +34,22 @@ training_x, training_y, test_x, test_y = load_data(dset)
 
 def main():
 
-    #tf.enable_eager_execution()
-    #training_x, training_y, test_x, test_y = load_data(dset)
-
-
-
-
-
-    #n.setTrainingCols(training_x)
-    #n.setTrainingLabels(training_y)
-    #n.setTestCols(test_x)
-    #n.setTestLabels(test_y)
 
     t = n.Node().full(0)
-    t.printTree()
-    print('\n', '\n')
-    print(t.fitness())
-    print('\n', '\n')
-    print(t.accuracy())
+    #t.printTree()
+    #print('\n', '\n')
+    #c = t.calculate(0, False)
+    #print(t.fitness(c))
+    #print('\n', '\n')
+    #print(t.accuracy(c))
 
     #treelist = forest.Generate_forest(500, 'RampedForest')
 
     #print(treelist, '\n')
     #print(len(treelist), '\n')
     #print(treelist[0][0].printTree(),'\n')
-    #print(treelist[0][1],'\n')
-    #print(treelist[0][2])
+    #print(treelist[0][3],'\n')
+    #print(treelist[0][1])
 
 
 
