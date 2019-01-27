@@ -169,15 +169,15 @@ class Node(object):
         return tf.losses.mean_squared_error(labels,result).numpy()
 
     # calculates the training accuracy
-    def accuracy(self, result):
-        result = binary_round(result)
-        mistaken = tf.count_nonzero(labels - result).numpy()
+    def accuracy(self, results):
+        results = binary_round(results)
+        mistaken = tf.count_nonzero(labels - results).numpy()
         #print("mistaken")
         #print(mistaken, '\n')
         #print("nlabels")
         #print(nlabels, '\n')
-        #return (1-(mistaken / nlabels)) * 100
-        return tf.contrib.eager.metrics.Accuracy(labels, result).value()
+        return (1-(mistaken / nlabels)) * 100
+        #return tf.contrib.eager.metrics.Accuracy(labels, results).result()
 
     # calculates the test accuracy
     def testAccuracy(self, result):

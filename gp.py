@@ -24,11 +24,11 @@ tournament_type = "tournament"
 tournament_size = 5
 forest_type = 'RampedForest'                                   # tipo de tornei, 1 -> standard, 2 -> double
 
-csvname = "heart.csv"                       # nome do dataset
+csvname = "heart_processed.csv"                       # nome do dataset
 savename = "hrtSINGULAR"                         # nome do ficheiro a gravar
 loadname = "lastgenSara.p"                         # nome do ficheiro a carregar
 graphname = "hrtSINGULAR"
-dsetpath = "/Users/nuno/Desktop/GPPY/datasets"              #
+dsetpath = "F:\GEEGP\datasets"              #
 fpath = "F:\GEEGP\STGP\individuals"              #
 graphpath = "F:\GEEGP\STGP\graphs"
 dset = os.path.join(dsetpath, csvname)      #

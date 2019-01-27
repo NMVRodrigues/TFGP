@@ -1,31 +1,18 @@
 import numpy as np
 import pandas as pd
-from sklearn.utils import shuffle
-from sklearn.preprocessing import LabelEncoder
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import chi2, f_classif
-from sklearn.model_selection import train_test_split
-import csv
+import sys
 
 
 def load_data(fname):
     # reads into dataframe
     df = pd.read_csv(fname, dtype=np.float64, engine='python', header=None)
     y = df.iloc[:,-1].values
-    table_X = table_X[:, list(range(0,len(df.columns)-1))]
-    #np.concatenate([a,b.reshape([len(b),1])],1)
-    df = df.values
-    ncols = len(df[0])
-    new_df = 
-    for col in range(ncols):
-        pas
-    
-
-    
-    
-
-
-
+    X = df.values[:, list(range(0,len(df.columns)-1))]
+    y = BinarizeLabels(y)
+    X = normalizeFeatures(standardizeFeatures(X))
+    new_df = np.column_stack((X,y))
+    pd.DataFrame(new_df).to_csv(fname[:-4] + '_processed.csv', header=None, index=None)
+       
 
 def BinarizeLabels(Y):
     c = Y[0]
@@ -52,3 +39,11 @@ def normalizeFeatures(X):
     for i in range(len(X)):
         X[i] = (X[i] - minV) / (maxV - minV)
     return X
+
+
+def main():
+    load_data(sys.argv[1])
+
+
+if __name__ == "__main__":
+    main()
