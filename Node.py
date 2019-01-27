@@ -3,7 +3,7 @@ import random as rand
 import copy
 import statistics
 from TF_Fixes import *
-from Start import training_x, training_y, test_x, test_y
+from gp import training_x, training_y, test_x, test_y
 
 cols = training_x
 ncols = len(cols)
@@ -20,9 +20,7 @@ tnlabels = len(tlabels.numpy())
 biFunctions = ['+', '-', '*', '//']
 uniFunctions = ['ln', 'sqrt']
 maxDepth = 2
-D = 0.7
-MUTATIONPERCENT = 0.05      # probabilidade de mutacao
-ROSSOVERPERCENT = 0.95     # probabilidade de crossover
+
 
 
 
@@ -172,11 +170,14 @@ class Node(object):
 
     # calculates the training accuracy
     def accuracy(self, result):
-        # mete 1 e 0
         result = binary_round(result)
-        # subtrai e compara os nao zero, numero de errados
         mistaken = tf.count_nonzero(labels - result).numpy()
-        return (1-(mistaken / nlabels)) * 100
+        #print("mistaken")
+        #print(mistaken, '\n')
+        #print("nlabels")
+        #print(nlabels, '\n')
+        #return (1-(mistaken / nlabels)) * 100
+        return tf.contrib.eager.metrics.Accuracy(labels, result).value()
 
     # calculates the test accuracy
     def testAccuracy(self, result):
