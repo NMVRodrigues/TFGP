@@ -1,8 +1,8 @@
 import Node as n
 from Data_Handler import *
-from Forest import Generate_forest
-from Selection import select, Elitism
-from Reproduction_Handler import Generate_Offsprings
+from Forest import Generate_forest, RampedForest
+from Selection import select, Elitism, tournament, doubleTournament
+from Reproduction_Handler import Generate_Offsprings, Apply_ops
 import time
 import sys
 import os.path
@@ -28,7 +28,7 @@ csvname = "heart_processed.csv"                       # nome do dataset
 savename = "hrtSINGULAR"                         # nome do ficheiro a gravar
 loadname = "lastgenSara.p"                         # nome do ficheiro a carregar
 graphname = "hrtSINGULAR"
-dsetpath = "F:\GEEGP\datasets"              #
+dsetpath = "~/Desktop/GPPY/datasets"              #
 fpath = "F:\GEEGP\STGP\individuals"              #
 graphpath = "F:\GEEGP\STGP\graphs"
 dset = os.path.join(dsetpath, csvname)      #
@@ -49,13 +49,13 @@ def main():
         print("number of run: ",run, '\n')
         cgen = 0
         if not resume:
-            treelist = Generate_forest(popsize, forest_type)
+            treelist = RampedForest(popsize, [])
         else:
             treelist = cPickle.load(open(load, "rb"))
         while cgen < ngens:
             print("gen number : ",cgen)
-            chosen = select(treelist, tournament_type, popsize, tournament_size)
-            offspring = Generate_Offsprings(chosen,popsize)
+            chosen = doubleTournament(tournament(treelist, popsize, tournament_size), popsize)
+            offspring = Apply_ops(chosen,popsize, [])
             newgen = Elitism(treelist,offspring,popsize)
             treelist = newgen
             print("RMSE: ", treelist[0][1])

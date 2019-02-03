@@ -31,21 +31,23 @@ def select(parents, tournament_type, popsize, tournament_size ):
 
 def tournament(parents, popsize, tsize):
     chosen = []
+    append = chosen.append
     while(len(chosen) < popsize):
         r = [random.randint(0,popsize-1) for x in range(0,tsize)]
-        chosen.append(parents[min(r)])
+        append(parents[min(r)])
     return chosen
 
 
 def doubleTournament(parents, popsize):
     chosen = []
+    append = chosen.append
     parents = sorted(parents, key=lambda x: x[3])
     while (len(chosen) < popsize):
         r = [random.randint(0, popsize - 1) for x in range(0, 2)]
         if random.random() < 0.7:
-            chosen.append(parents[min(r)])
+            append(parents[min(r)])
         else:
-            chosen.append(parents[max(r)])
+            append(parents[max(r)])
     chosen = sorted(chosen, key=lambda x: x[1])
     return chosen
 

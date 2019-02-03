@@ -49,13 +49,14 @@ def RampedForest(popsize, tree_lst):
         nn = t.number_of_nodes()
         c = t.calculate(0, False)
         f = t.fitness(c)
-        append((t,nn,c,f))
+        append((t,f,c,nn))
     for _ in range(grow_size):
         t = n.Node().full(0)
         nn = t.number_of_nodes()
         c = t.calculate(0, False)
         f = t.fitness(c)
-        append((t,nn,c,f))
+        append((t,f,c,nn))
+    tree_lst = sorted(tree_lst, key=lambda x: x[1])
     return tree_lst
 
 def FullForest(popsize, tree_lst):

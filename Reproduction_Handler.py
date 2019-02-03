@@ -63,4 +63,5 @@ def Apply_ops(parents, popsize,offspring):
             c = parent.calculate(0, False)
             f = parent.fitness(c)
             appendof((parent, f, c, n))
+    offspring = sorted(offspring, key=lambda x: x[1])
     return offspring

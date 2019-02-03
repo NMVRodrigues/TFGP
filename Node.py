@@ -19,7 +19,7 @@ tnlabels = len(tlabels.numpy())
 
 biFunctions = ['+', '-', '*', '//']
 uniFunctions = ['ln', 'sqrt']
-maxDepth = 2
+maxDepth = 3
 
 
 
@@ -46,7 +46,7 @@ class Node(object):
 
     # checks if self is leaf
     def isLeaf(self):
-            return self.left is None and self.right is None
+            return self.left is None
 
     # TODO pruning the tree
     def prune(self):
@@ -149,16 +149,15 @@ class Node(object):
         if self.isLeaf():
             result = getCol(self.value, test)
         else:
-            op = self.value
-            if op == '+':
+            if self.value == '+':
                 result = self.left.calculate(result, test) + self.right.calculate(result, test)
-            elif op == '-':
+            elif self.value == '-':
                 result = self.left.calculate(result, test) - self.right.calculate(result, test)
-            elif op == '*':
+            elif self.value == '*':
                 result = self.left.calculate(result, test) * self.right.calculate(result, test)
-            elif op == '//':
+            elif self.value == '//':
                 result = divide(self.left.calculate(result, test), self.right.calculate(result, test))
-            elif op == 'ln':
+            elif self.value == 'ln':
                 result = ln(self.left.calculate(result, test))
             else:
                 result = sqrt(self.left.calculate(result, test))
@@ -166,12 +165,14 @@ class Node(object):
 
     # calculates the fitness of the tree
     def fitness(self, result):
-        return tf.losses.mean_squared_error(labels,result).numpy()
+        return tf.sqrt(tf.losses.mean_squared_error(labels,result)).numpy()
 
     # calculates the training accuracy
     def accuracy(self, results):
         results = binary_round(results)
-        mistaken = tf.count_nonzero(labels - results).numpy()
+        #print(results, '\n')
+        #print(labels, '\n')
+        mistaken = tf.count_nonzero(labels - results, dtype=tf.float64).numpy()
         #print("mistaken")
         #print(mistaken, '\n')
         #print("nlabels")
