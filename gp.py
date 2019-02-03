@@ -60,8 +60,9 @@ def main():
             treelist = newgen
             print("RMSE: ", treelist[0][1])
             print("size: ", treelist[0][3])
-            print("Training Accuracy: ", treelist[0][0].accuracy(treelist[0][2]), '\n')
-            #print("Test Accuracy: ", treelist[0][0].testAccuracy(treelist[0][2]), '\n')
+            print("Training Accuracy: ", treelist[0][0].accuracy(treelist[0][2]))
+            tresults = treelist[0][0].calculate(0, True)
+            print("Test Accuracy: ", treelist[0][0].testAccuracy(tresults), '\n')
             cgen += 1
         run += 1
     #treelist[0][0].printTree()

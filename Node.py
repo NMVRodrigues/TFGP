@@ -170,20 +170,14 @@ class Node(object):
     # calculates the training accuracy
     def accuracy(self, results):
         results = binary_round(results)
-        #print(results, '\n')
-        #print(labels, '\n')
         mistaken = tf.count_nonzero(labels - results, dtype=tf.float64).numpy()
-        #print("mistaken")
-        #print(mistaken, '\n')
-        #print("nlabels")
-        #print(nlabels, '\n')
         return (1-(mistaken / nlabels)) * 100
         #return tf.contrib.eager.metrics.Accuracy(labels, results).result()
 
     # calculates the test accuracy
-    def testAccuracy(self, result):
+    def testAccuracy(self, results):
         # mete 1 e 0
-        result = binary_round(result)
+        results = binary_round(results)
         # subtrai e compara os nao zero, numero de errados
-        mistaken = tf.count_nonzero(tlabels - result).numpy()
+        mistaken = tf.count_nonzero(tlabels - results).numpy()
         return (1-(mistaken / tnlabels)) * 100
