@@ -60,29 +60,19 @@ def main():
             treelist = newgen
             print("RMSE: ", treelist[0][1])
             print("size: ", treelist[0][3])
-            print("Training Accuracy: ", treelist[0][0].accuracy(treelist[0][2]))
+            acc = treelist[0][0].accuracy(treelist[0][2])
             tresults = treelist[0][0].calculate(0, True)
-            print("Test Accuracy: ", treelist[0][0].testAccuracy(tresults), '\n')
+            tacc = treelist[0][0].testAccuracy(tresults)
+            print("Training Accuracy: ", acc)
+            print("Test Accuracy: ", tacc, '\n')
+            trainingList = trainingList + (acc,)
+            testList = testList + (tacc,)
+            nodeList = nodeList + (treelist[0][3],)
             cgen += 1
+
+
         run += 1
-    #treelist[0][0].printTree()
     print("--- %s seconds ---" % (time.time() - start_time))
-
-    #t = n.Node().full(0)
-    #t.printTree()
-    #print('\n', '\n')
-    #c = t.calculate(0, False)
-    #print(t.fitness(c))
-    #print('\n', '\n')
-    #print(t.accuracy(c))
-
-    #treelist = forest.Generate_forest(500, 'RampedForest')
-
-    #print(treelist, '\n')
-    #print(len(treelist), '\n')
-    #print(treelist[0][0].printTree(),'\n')
-    #print(treelist[0][3],'\n')
-    #print(treelist[0][1])
 
 
 

@@ -8,7 +8,7 @@ def divide(x,y):
     #original = x.numpy()
     #temp[temp == np.inf] = original[temp == np.inf]    #magic, for any place in temp that is equal to np.inf, replace it with the equivalent index from original
     #result = tf.Variable(temp)
-    result = tf.where(tf.equal(y,0.), x, x/y) # result = where(abs(denominator) < epsilon, numerator, numerator / denominator)
+    result = tf.where(tf.equal(y,0.), x, tf.div(x,y)) # result = where(abs(denominator) < epsilon, numerator, numerator / denominator)
     return result
 
 def ln(x):

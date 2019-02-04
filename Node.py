@@ -19,7 +19,7 @@ tnlabels = len(tlabels.numpy())
 
 biFunctions = ['+', '-', '*', '//']
 uniFunctions = ['ln', 'sqrt']
-maxDepth = 3
+maxDepth = 2
 
 
 
