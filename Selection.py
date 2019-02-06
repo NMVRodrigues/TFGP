@@ -5,7 +5,7 @@ import multiprocessing as mp
 import itertools
 
 
-def Elitism(parents, offspring, popsize):
+def elitism(parents, offspring, popsize):
     newgen = sorted(parents + offspring, key=lambda x: x[1])
     return newgen[:popsize]
 
@@ -18,8 +18,8 @@ def select(parents, tournament_type, popsize, tournament_size ):
     chosen = list(itertools.chain.from_iterable(chosen))
 
     if tournament_type is "doubletournament":
-        chosen =  pool.starmap(doubleTournament, ((chosen,pop_per_process), (chosen,pop_per_process),
-                        (chosen,pop_per_process), (chosen,pop_per_process),(chosen,pop_per_process)))
+        chosen =  pool.starmap(double_tournament, ((chosen, pop_per_process), (chosen, pop_per_process),
+                                                   (chosen,pop_per_process), (chosen,pop_per_process), (chosen,pop_per_process)))
         chosen = list(itertools.chain.from_iterable(chosen))
         
     pool.close()
@@ -29,20 +29,21 @@ def select(parents, tournament_type, popsize, tournament_size ):
    
     return chosen
 
+
 def tournament(parents, popsize, tsize):
     chosen = []
     append = chosen.append
-    while(len(chosen) < popsize):
+    while len(chosen) < popsize:
         r = [random.randint(0,popsize-1) for x in range(0,tsize)]
         append(parents[min(r)])
     return chosen
 
 
-def doubleTournament(parents, popsize):
+def double_tournament(parents, popsize):
     chosen = []
     append = chosen.append
     parents = sorted(parents, key=lambda x: x[3])
-    while (len(chosen) < popsize):
+    while len(chosen) < popsize:
         r = [random.randint(0, popsize - 1) for x in range(0, 2)]
         if random.random() < 0.7:
             append(parents[min(r)])

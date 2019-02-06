@@ -2,8 +2,8 @@ import tensorflow as tf
 import random as rand
 import copy
 import statistics
-from TF_Fixes import *
-from gp import training_x, training_y, test_x, test_y
+from TFFixes import *
+from GP import training_x, training_y, test_x, test_y
 
 cols = training_x
 ncols = len(cols)
@@ -45,7 +45,7 @@ class Node(object):
         self.right = None
 
     # checks if self is leaf
-    def isLeaf(self):
+    def is_leaf(self):
             return self.left is None
 
     # TODO pruning the tree
@@ -74,7 +74,7 @@ class Node(object):
             else:
                 self.value = rand.randint(0, ncols - 1)
         else:
-            if self.left == None:
+            if self.left is None:
                 if rand.randint(0, 1) == 0:
                     if rand.random() > 3:   # same thing
                         self.value = rand.random()
@@ -105,16 +105,16 @@ class Node(object):
             (self.right.number_of_nodes() if self.right is not None else 0)
 
     # returns a node fromt he tree
-    def getNode(self, i):
+    def get_node(self, i):
         if i == 0:
             return self
         ls = (self.left.number_of_nodes() if self.left is not None else 0)
         if i - 1 < ls:
             if self.left is not None:
-                return self.left.getNode(i-1)
+                return self.left.get_node(i - 1)
         else:
             if self.right is not None:
-                return self.right.getNode(i - ls - 1)
+                return self.right.get_node(i - ls - 1)
 
     # mutates a node by growing it
     def mutate(self, i):
@@ -130,23 +130,14 @@ class Node(object):
                 self.right.mutate(i - ls - 1)
 
     # prints the tree
-    def printTree(self):
+    def print_tree(self):
         print(self.value)
-        (self.left.printTree() if self.left is not None else 0)
-        (self.right.printTree() if self.right is not None else 0)
-
-    #def printTree2(self):
-        #print("(  %s  " % self.value, (self.left.printTree2() if self.left is not None else 0),(self.right.printTree2() if self.right is not None else 0),"  )" , end="", flush=True)
-    #def printTree2(self):
-    #    if self.isLeaf():
-    #        print(self.value, end='')
-    #    else:
-    #        print('( ',self.value, ' ', self.left.printTree2(), ' ', (self.right.printTree2() if self.right is not None else 0), ' )', end='')
-        
+        (self.left.print_tree() if self.left is not None else 0)
+        (self.right.print_tree() if self.right is not None else 0)
 
     # calculates the tree
     def calculate(self, result, test):
-        if self.isLeaf():
+        if self.is_leaf():
             result = getCol(self.value, test)
         else:
             if self.value == '+':
@@ -170,12 +161,12 @@ class Node(object):
     # calculates the training accuracy
     def accuracy(self, results):
         results = binary_round(results)
-        mistaken = tf.count_nonzero(labels - results, dtype=tf.float64).numpy()
+        mistaken = tf.count_nonzero(labels - results).numpy()
         return (1-(mistaken / nlabels)) * 100
         #return tf.contrib.eager.metrics.Accuracy(labels, results).result()
 
     # calculates the test accuracy
-    def testAccuracy(self, results):
+    def test_accuracy(self, results):
         # mete 1 e 0
         results = binary_round(results)
         # subtrai e compara os nao zero, numero de errados

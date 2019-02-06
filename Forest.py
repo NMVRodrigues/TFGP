@@ -12,16 +12,16 @@ def Generate_forest(popsize, forest_type):
     start_time = time.time()
     pool = mp.Pool(processes=5)
     pop_per_process = int(popsize/5)
-    if forest_type == 'RampedForest':
-        treeList =  pool.starmap(RampedForest, ((pop_per_process, []), (pop_per_process, []),
-                    (pop_per_process, []), (pop_per_process, []),(pop_per_process, [])))
+    if forest_type == 'ramped_forest':
+        treeList =  pool.starmap(ramped_forest, ((pop_per_process, []), (pop_per_process, []),
+                                                 (pop_per_process, []), (pop_per_process, []), (pop_per_process, [])))
         #treeList = pool.starmap(test, ((5, []), (5, []),(5, []), (5, []),(5, [])))
-    elif forest_type == 'FullForest':
-        treeList =  pool.starmap(FullForest, ((pop_per_process, []), (pop_per_process, []),
-                    (pop_per_process, []), (pop_per_process, []),(pop_per_process, [])))
-    elif forest_type == 'GrowForest':
-        treeList =  pool.starmap(GrowForest, ((pop_per_process, []), (pop_per_process, []),
-                    (pop_per_process, []), (pop_per_process, []),(pop_per_process, [])))
+    elif forest_type == 'full_forest':
+        treeList =  pool.starmap(full_forest, ((pop_per_process, []), (pop_per_process, []),
+                                               (pop_per_process, []), (pop_per_process, []), (pop_per_process, [])))
+    elif forest_type == 'grow_forest':
+        treeList =  pool.starmap(grow_forest, ((pop_per_process, []), (pop_per_process, []),
+                                               (pop_per_process, []), (pop_per_process, []), (pop_per_process, [])))
     else:
         print("Invalid initialization, quiting...")
         exit(0)
@@ -40,7 +40,8 @@ def Generate_forest(popsize, forest_type):
     tree_lst = sorted(tree_lst, key=lambda x: x[3])
     return tree_lst
 
-def RampedForest(popsize, tree_lst):
+
+def ramped_forest(popsize, tree_lst):
     full_size = int(math.ceil(popsize/2))
     grow_size = popsize - full_size
     append = tree_lst.append
@@ -59,7 +60,8 @@ def RampedForest(popsize, tree_lst):
     tree_lst = sorted(tree_lst, key=lambda x: x[1])
     return tree_lst
 
-def FullForest(popsize, tree_lst):
+
+def full_forest(popsize, tree_lst):
     append = tree_lst.append
     for _ in range(popsize):
         t = n.Node().full(0)
@@ -69,7 +71,8 @@ def FullForest(popsize, tree_lst):
         append((t,nn,c,f))
     return tree_lst
 
-def GrowForest(popsize, tree_lst):
+
+def grow_forest(popsize, tree_lst):
     append = tree_lst.append
     for _ in range(popsize):
         t = n.Node().full(0)
@@ -80,11 +83,7 @@ def GrowForest(popsize, tree_lst):
     return tree_lst
 
 
-#def test(popsize, treelist):
-#    r = random.randint(0,5)
-#    for i in range(popsize):
-#        treelist.append(r)
-#    return treelist
+
 
 
 
