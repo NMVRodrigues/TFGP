@@ -17,7 +17,7 @@ tf.enable_eager_execution()
 tfe = tf.contrib.eager
 
 nruns = 1
-popsize = 100
+popsize = 500
 tsize = 5
 ngens = 100
 resume = False
@@ -25,11 +25,11 @@ tournament_type = "tournament"
 tournament_size = 5
 forest_type = 'ramped_forest'
 
-csvname = "heart_processed.csv"
-savename = "hrtTest"
+csvname = "radiomics_ABUS_All_label_processed.csv"
+savename = "Breast0"
 loadname = "lastgenSara.p"
 sheetname = "hrtTest"
-dsetpath = "F:\GEEGP\datasets"
+dsetpath = ".\\individuals"
 
 dset = os.path.join(dsetpath, csvname)
 savepopdir = '.\\individuals'

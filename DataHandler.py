@@ -16,9 +16,9 @@ def load_data(fname):
     # reads into dataframe
     df = pd.read_csv(fname, dtype=np.float64, engine='python', header=None)
     # shuffles da dataset
-    df = shuffle(df,random_state=1)
+    df = shuffle(df,random_state=None)
     # split into training and test
-    train, test = train_test_split(df, test_size=0.3, shuffle=False)
+    train, test = train_test_split(df, test_size=0.25, shuffle=False)
     # save tensors
     train_cols = []
     test_cols = []
