@@ -41,23 +41,12 @@ def Generate_forest(popsize, forest_type):
     return tree_lst
 
 
-def ramped_forest(popsize, tree_lst):
+def ramped_forest(popsize):
     full_size = int(math.ceil(popsize/2))
     grow_size = popsize - full_size
-    append = tree_lst.append
-    for _ in range(full_size):
-        t = n.Node().full(0)
-        nn = t.number_of_nodes()
-        c = t.calculate(0, False)
-        f = t.fitness(c)
-        append((t,f,c,nn))
-    for _ in range(grow_size):
-        t = n.Node().full(0)
-        nn = t.number_of_nodes()
-        c = t.calculate(0, False)
-        f = t.fitness(c)
-        append((t,f,c,nn))
-    tree_lst = sorted(tree_lst, key=lambda x: x[1])
+    full = full_forest(full_size, [])
+    grow = grow_forest(grow_size, [])
+    tree_lst = sorted(full+grow, key=lambda x: x[2])
     return tree_lst
 
 
@@ -68,7 +57,8 @@ def full_forest(popsize, tree_lst):
         nn = t.number_of_nodes()
         c = t.calculate(0, False)
         f = t.fitness(c)
-        append((t,nn,c,f))
+        t.size = nn
+        append((t,c,f))
     return tree_lst
 
 
@@ -79,7 +69,8 @@ def grow_forest(popsize, tree_lst):
         nn = t.number_of_nodes()
         c = t.calculate(0, False)
         f = t.fitness(c)
-        append((t,nn,c,f))
+        t.size = nn
+        append((t,c,f))
     return tree_lst
 
 

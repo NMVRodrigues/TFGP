@@ -6,7 +6,7 @@ import itertools
 
 
 def elitism(parents, offspring, popsize):
-    newgen = sorted(parents + offspring, key=lambda x: x[1])
+    newgen = sorted(parents + offspring, key=lambda x: x[2])
     return newgen[:popsize]
 
 def select(parents, tournament_type, popsize, tournament_size ):
@@ -42,13 +42,13 @@ def tournament(parents, popsize, tsize):
 def double_tournament(parents, popsize):
     chosen = []
     append = chosen.append
-    parents = sorted(parents, key=lambda x: x[3])
+    parents = sorted(parents, key=lambda x: x[0].size)
     while len(chosen) < popsize:
         r = [random.randint(0, popsize - 1) for x in range(0, 2)]
         if random.random() < 0.7:
             append(parents[min(r)])
         else:
             append(parents[max(r)])
-    chosen = sorted(chosen, key=lambda x: x[1])
+    chosen = sorted(chosen, key=lambda x: x[2])
     return chosen
 

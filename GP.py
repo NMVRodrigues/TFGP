@@ -14,7 +14,7 @@ import os
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 tf.enable_eager_execution()
-tfe = tf.contrib.eager
+
 
 nruns = 1
 popsize = 500
@@ -26,10 +26,10 @@ tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "radiomics_ABUS_All_label_processed.csv"
-savename = "Breast0"
+savename = "Breast6"
 loadname = "lastgenSara.p"
-sheetname = "hrtTest"
-dsetpath = ".\\individuals"
+sheetname = "Breast6"
+dsetpath = ".\\datasets"
 
 dset = os.path.join(dsetpath, csvname)
 savepopdir = '.\\individuals'
@@ -56,7 +56,7 @@ def main():
         print("number of run: ",run, '\n')
         cgen = 0
         if not resume:
-            treelist = ramped_forest(popsize, [])
+            treelist = ramped_forest(popsize)
         else:
             # treelist = cPickle.load(open(load, "rb"))
             pass
@@ -68,20 +68,20 @@ def main():
             newgen = elitism(treelist, offspring, popsize)
             treelist = newgen
 
-            acc = treelist[0][0].accuracy(treelist[0][2])
+            acc = treelist[0][0].accuracy(treelist[0][1])
             tresults = treelist[0][0].calculate(0, True)
             tacc = treelist[0][0].test_accuracy(tresults)
 
-            print("RMSE: ", treelist[0][1])
-            print("size: ", treelist[0][3])
+            print("RMSE: ", treelist[0][2])
+            print("size: ", treelist[0][0].size)
             print("Training Accuracy: ", acc)
             print("Test Accuracy: ", tacc, '\n')
 
             appendacl(acc)
             appendtacl(tacc)
-            appendnl(treelist[0][3])
+            appendnl(treelist[0][0].size)
 
-            save_best(savepopdir, savename + str(run) + str(cgen), [treelist[0]])
+            #save_best(savepopdir, savename + str(run) + str(cgen), [treelist[0]])
 
             cgen += 1
 
