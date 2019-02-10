@@ -49,6 +49,6 @@ training = training.T
 #dimensions = dimensions.T
 line_saparator = pd.Series([np.nan])
 
-pd.concat([line_saparator, training, line_saparator, test, line_saparator, nodes]).to_csv(os.path.join(path, "BreastCancerSTGP" + '.csv'), sep=";",  index=True)
+pd.concat([line_saparator, training, line_saparator, test, line_saparator, nodes]).to_csv(os.path.join(path, "BreastCancerSTGP_V2" + '.csv'), sep=";",  index=True)
 #pd.concat([mutation, crossover, training, test, nodes]).to_csv(os.path.join(path, "hrt9-1" + '.csv'), sep=";",  index=True)
 #pd.concat([training, test, dimensions, nodes]).to_csv(os.path.join(path, "radioSelectK" + '.csv'), sep=";",  index=True)

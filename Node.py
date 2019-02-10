@@ -3,23 +3,26 @@ import random as rand
 import copy
 import statistics
 from TFFixes import *
-from GP import training_x, training_y, test_x, test_y
+#from GP import training_x, training_y, test_x, test_y
 
-cols = training_x
-ncols = len(cols)
-labels = training_y
-nlabels = len(labels.numpy())
-tcols = test_x
-tncols = len(tcols)
-tlabels = test_y
-tnlabels = len(tlabels.numpy())
+
+def set_data(training_x, training_y, test_x, test_y):
+    global cols, ncols, labels, nlabels, tcols, tncols, tlabels, tnlabels
+    cols = training_x
+    labels = training_y
+    tcols = test_x
+    tlabels = test_y
+    ncols = len(cols)
+    nlabels = len(labels.numpy())
+    tncols = len(tcols)
+    tnlabels = len(tlabels.numpy())
 
 
 #------------------------------------
 
 biFunctions = ['+', '-', '*', '//']
 uniFunctions = ['ln', 'sqrt']
-maxDepth = 2
+maxDepth = 4
 
 
 

@@ -1,4 +1,4 @@
-import Node as n
+from Node import set_data
 from DataHandler import *
 from Forest import Generate_forest, ramped_forest
 from Selection import select, elitism, tournament, double_tournament
@@ -16,7 +16,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 tf.enable_eager_execution()
 
 
-nruns = 1
+nruns = 30
 popsize = 500
 tsize = 5
 ngens = 100
@@ -26,9 +26,9 @@ tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "radiomics_ABUS_All_label_processed.csv"
-savename = "Breast6"
+savename = "Breast"
 loadname = "lastgenSara.p"
-sheetname = "Breast6"
+sheetname = "Breast"
 dsetpath = ".\\datasets"
 
 dset = os.path.join(dsetpath, csvname)
@@ -38,7 +38,7 @@ savesheetdir = '.\\sheets'
 sys.setrecursionlimit(100000)
 
 
-training_x, training_y, test_x, test_y = load_data(dset)
+#training_x, training_y, test_x, test_y = load_data(dset)
 
 def main():
 
@@ -53,6 +53,9 @@ def main():
     run = 0
     start_time = time.time()
     while run < nruns:
+        print("Parsing Data...")
+        training_x, training_y, test_x, test_y = load_data(dset)
+        set_data(training_x, training_y, test_x, test_y)
         print("number of run: ",run, '\n')
         cgen = 0
         if not resume:
