@@ -13,10 +13,10 @@ import os
 
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-tf.enable_eager_execution()
 
 
-nruns = 30
+
+nruns = 1
 popsize = 500
 tsize = 5
 ngens = 100
@@ -25,10 +25,10 @@ tournament_type = "tournament"
 tournament_size = 5
 forest_type = 'ramped_forest'
 
-csvname = "radiomics_ABUS_All_label_processed.csv"
-savename = "Breast"
+csvname = "breast_cancer_wis.csv"
+savename = "Maria"
 loadname = "lastgenSara.p"
-sheetname = "Breast"
+sheetname = "bcw"
 dsetpath = ".\\datasets"
 
 dset = os.path.join(dsetpath, csvname)
@@ -42,7 +42,8 @@ sys.setrecursionlimit(100000)
 
 def main():
 
-    # rmselist = []
+    rmselist = []
+    appendrmse = rmselist.append
     acclist = []
     appendacl = acclist.append
     tacclist = []
@@ -80,6 +81,7 @@ def main():
             print("Training Accuracy: ", acc)
             print("Test Accuracy: ", tacc, '\n')
 
+            appendrmse(treelist[0][2])
             appendacl(acc)
             appendtacl(tacc)
             appendnl(treelist[0][0].size)
@@ -88,12 +90,14 @@ def main():
 
             cgen += 1
 
-        save_spreadsheet(savesheetdir, sheetname + str(run), [acclist, tacclist, nodelist])
+        save_spreadsheet(savesheetdir, sheetname + str(run), [rmselist, acclist, tacclist, nodelist])
+        rmselist.clear()
         acclist.clear()
         tacclist.clear()
         nodelist.clear()
 
         run += 1
+        treelist[0][0].print_tree()
     print("--- %s seconds ---" % (time.time() - start_time))
 
 

@@ -22,7 +22,7 @@ def set_data(training_x, training_y, test_x, test_y):
 
 biFunctions = ['+', '-', '*', '//']
 uniFunctions = ['ln', 'sqrt']
-maxDepth = 4
+maxDepth = 2
 
 
 
@@ -165,7 +165,7 @@ class Node(object):
     # calculates the training accuracy
     def accuracy(self, results):
         results = binary_round(results)
-        mistaken = tf.count_nonzero(labels - results).numpy()
+        mistaken = tf.math.count_nonzero(labels - results).numpy()
         return (1-(mistaken / nlabels)) * 100
         #return tf.contrib.eager.metrics.Accuracy(labels, results).result()
 
@@ -174,5 +174,5 @@ class Node(object):
         # mete 1 e 0
         results = binary_round(results)
         # subtrai e compara os nao zero, numero de errados
-        mistaken = tf.count_nonzero(tlabels - results).numpy()
+        mistaken = tf.math.count_nonzero(tlabels - results).numpy()
         return (1-(mistaken / tnlabels)) * 100
