@@ -1,4 +1,4 @@
-from Node import *
+from Tree import *
 #from gp import MUTATIONPERCENT, CROSSOVERPERCENT
 import random
 from GeneticOperators import mutation, crossover

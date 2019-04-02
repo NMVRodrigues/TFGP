@@ -1,4 +1,4 @@
-from Node import set_data
+from Tree import set_data
 from DataHandler import *
 from Forest import Generate_forest, ramped_forest
 from Selection import select, elitism, tournament, double_tournament

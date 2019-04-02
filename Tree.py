@@ -2,7 +2,7 @@ import tensorflow as tf
 import random as rand
 import copy
 import statistics
-from TFFixes import *
+from Math import *
 #from GP import training_x, training_y, test_x, test_y
 
 
@@ -39,7 +39,12 @@ def getCol(x, t):
         else:
             return tcols[x]
 
-
+class Tree(object):
+    def __init__(self):
+        self.size = 0
+        self.globalvalue = 0
+        self.fit = 0
+        self.root = None
 
 class Node(object):
     def __init__(self):

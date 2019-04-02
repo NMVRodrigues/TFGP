@@ -1,4 +1,4 @@
-from Node import *
+from Tree import *
 import copy
 import random
 

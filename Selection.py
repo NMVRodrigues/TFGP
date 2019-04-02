@@ -1,4 +1,4 @@
-import Node
+import Tree
 #from gp import D
 import random
 import multiprocessing as mp
