@@ -74,8 +74,8 @@ class Node(object):
             self.right = Node().full(depth+1)
         return self
 
-    # creates a tree using the growth method
-    def growth(self, depth):
+    # creates a tree using the grow method
+    def grow(self, depth):
         if depth == maxDepth:
             if rand.random() > 3:   #garante que não ah terminais 
                 self.value = rand.random()
@@ -91,7 +91,7 @@ class Node(object):
                 else:
                     if rand.randint(0,1) == 0:
                         self.value = rand.choice(uniFunctions)
-                        self.left = Node().growth(depth+1)
+                        self.left = Node().grow(depth + 1)
                     else:
                         self.value = rand.choice(biFunctions)
                         self.left = Node().full(depth + 1)
@@ -99,7 +99,7 @@ class Node(object):
             else:
                 if rand.randint(0, 1) == 0:
                     self.value = rand.choice(uniFunctions)
-                    self.left = Node().growth(depth + 1)
+                    self.left = Node().grow(depth + 1)
                 else:
                     self.value = rand.choice(biFunctions)
                     self.left = Node().full(depth + 1)
@@ -127,7 +127,7 @@ class Node(object):
     # mutates a node by growing it
     def mutate(self, i):
         if i == 0:
-            self.growth(0)
+            self.grow(0)
             return
         ls = (self.left.number_of_nodes() if self.left is not None else 0)
         if i - 1 < ls:
