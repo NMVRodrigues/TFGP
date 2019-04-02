@@ -2,36 +2,32 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from sklearn.utils import shuffle
-from sklearn.preprocessing import LabelEncoder
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import chi2, f_classif
 from sklearn.model_selection import train_test_split
-import csv
+import gc
 '''
     File that manages the data inputs
 '''
 
 
 def load_data(fname):
+    print("Parsing Data...")
     # reads into dataframe
     df = pd.read_csv(fname, dtype=np.float64, engine='python', header=None)
     # shuffles da dataset
-    df = shuffle(df,random_state=None)
-    # split into training and test
-    train, test = train_test_split(df, test_size=0.25, shuffle=False)
-    # save tensors
-    train_cols = []
-    test_cols = []
-    to_tensor = tf.convert_to_tensor
-    appendTrn = train_cols.append
-    appendTst = test_cols.append
-    for i in range(len(train.columns)):
-        appendTrn(to_tensor(train[i]))
-    train_labels = train_cols.pop(-1)
-    for i in range(len(test.columns)):
-        appendTst(to_tensor(test[i]))
-    test_labels = test_cols.pop(-1)
+    df = shuffle(df, random_state=None)
+    # splits into labels and features
+    X = df.values[:, list(range(0, len(df.columns)))]
+    # splits into training and test
+    train_set, test_set = train_test_split(X, test_size=0.3, shuffle=False)
+    # splits test_set into features and labels
+    test_y = tf.convert_to_tensor(test_set[:, -1])
+    test_x = list(map(tf.convert_to_tensor, np.delete(test_set, -1, axis=1).T))
+    # splits train_set into features and labels
+    train_y = tf.convert_to_tensor(train_set[:, -1])
+    train_x = list(map(tf.convert_to_tensor, np.delete(train_set, -1, axis=1).T))
+    gc.collect()
 
-    return train_cols, train_labels, test_cols, test_labels
+    return train_x, train_y, test_x, test_y
+
 
 
