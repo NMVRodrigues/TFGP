@@ -51,7 +51,6 @@ class Node(object):
         self.value = None
         self.left = None
         self.right = None
-        self.size = None
 
     # checks if self is leaf
     def is_leaf(self):
