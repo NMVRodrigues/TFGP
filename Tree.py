@@ -166,17 +166,3 @@ class Node(object):
     def fitness(self, result):
         return tf.sqrt(tf.losses.mean_squared_error(labels,result)).numpy()
 
-    # calculates the training accuracy
-    def accuracy(self, results):
-        results = binary_round(results)
-        mistaken = tf.math.count_nonzero(labels - results).numpy()
-        return (1-(mistaken / nlabels)) * 100
-        #return tf.contrib.eager.metrics.Accuracy(labels, results).result()
-
-    # calculates the test accuracy
-    def test_accuracy(self, results):
-        # mete 1 e 0
-        results = binary_round(results)
-        # subtrai e compara os nao zero, numero de errados
-        mistaken = tf.math.count_nonzero(tlabels - results).numpy()
-        return (1-(mistaken / tnlabels)) * 100

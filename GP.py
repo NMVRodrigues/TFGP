@@ -42,20 +42,13 @@ sys.setrecursionlimit(100000)
 
 def main():
 
-    rmselist = []
-    appendrmse = rmselist.append
-    acclist = []
-    appendacl = acclist.append
-    tacclist = []
-    appendtacl = tacclist.append
-    nodelist = []
-    appendnl = nodelist.append
-
     run = 0
     start_time = time.time()
     while run < nruns:
         print("Parsing Data...")
         training_x, training_y, test_x, test_y = load_data(dset)
+        print(test_y, '\n')
+        print(test_y.numpy())
         set_data(training_x, training_y, test_x, test_y)
         print("number of run: ",run, '\n')
         cgen = 0
@@ -68,34 +61,36 @@ def main():
             print("gen number : ",cgen)
 
             chosen = double_tournament(tournament(treelist, popsize, tournament_size), popsize)
+
             offspring = apply_operators(chosen, popsize, [])
+
+            del chosen
+
             newgen = elitism(treelist, offspring, popsize)
+
+            del offspring
+
             treelist = newgen
 
+            del newgen
+
             calctest = treelist[0].root.calculate(0, True)
-            acc = treelist[0].root.accuracy(treelist[0].globalvalue)
-            tacc = treelist[0].root.test_accuracy(calctest)
+
 
             print("RMSE: ", treelist[0].fit)
-            print("size: ", treelist[0].size)
-            print("Training Accuracy: ", acc)
-            print("Test Accuracy: ", tacc, '\n')
+            print("size: ", treelist[0].size, '\n')
 
-            #appendrmse(treelist[0][2])
-            #appendacl(acc)
-            #appendtacl(tacc)
-            #appendnl(treelist[0][0].size)
 
-            #save_best(savepopdir, savename + str(run) + str(cgen), [treelist[0]])
-
+            save_best(savepopdir, savename + str(run) + str(cgen), [treelist[0]])
+            tf.random.set_seed(1)
+            gc.collect()
             cgen += 1
 
-        #save_spreadsheet(savesheetdir, sheetname + str(run), [rmselist, acclist, tacclist, nodelist])
-        rmselist.clear()
-        acclist.clear()
-        tacclist.clear()
-        nodelist.clear()
+        save_spreadsheet(savesheetdir, sheetname + str(run), [treelist.fit, calctest.numpy(), test_y.numpy()])
 
+
+        tf.random.set_seed(1)
+        gc.collect()
         run += 1
         #treelist[0][0].print_tree()
     print("--- %s seconds ---" % (time.time() - start_time))
