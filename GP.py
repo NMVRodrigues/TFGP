@@ -16,7 +16,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 
-nruns = 1
+nruns = 10
 popsize = 500
 tsize = 5
 ngens = 100
@@ -25,10 +25,10 @@ tournament_type = "tournament"
 tournament_size = 5
 forest_type = 'ramped_forest'
 
-csvname = "breast_cancer_wis.csv"
-savename = "Maria"
+csvname = "curvasRWC.csv"
+savename = "d2_t_norm"
 loadname = "lastgenSara.p"
-sheetname = "bcw"
+sheetname = "d2_t_norm"
 dsetpath = ".\\datasets"
 
 dset = os.path.join(dsetpath, csvname)
@@ -42,13 +42,15 @@ sys.setrecursionlimit(100000)
 
 def main():
 
+    lixo = []
+    appendlixo = lixo.append
+
+
     run = 0
     start_time = time.time()
     while run < nruns:
         print("Parsing Data...")
         training_x, training_y, test_x, test_y = load_data(dset)
-        print(test_y, '\n')
-        print(test_y.numpy())
         set_data(training_x, training_y, test_x, test_y)
         print("number of run: ",run, '\n')
         cgen = 0
@@ -60,7 +62,8 @@ def main():
         while cgen < ngens:
             print("gen number : ",cgen)
 
-            chosen = double_tournament(tournament(treelist, popsize, tournament_size), popsize)
+            #chosen = double_tournament(tournament(treelist, popsize, tournament_size), popsize)
+            chosen = tournament(treelist, popsize, tournament_size)
 
             offspring = apply_operators(chosen, popsize, [])
 
@@ -80,13 +83,17 @@ def main():
             print("RMSE: ", treelist[0].fit)
             print("size: ", treelist[0].size, '\n')
 
+            appendlixo(0)
 
-            save_best(savepopdir, savename + str(run) + str(cgen), [treelist[0]])
             tf.random.set_seed(1)
             gc.collect()
             cgen += 1
 
-        save_spreadsheet(savesheetdir, sheetname + str(run), [treelist.fit, calctest.numpy(), test_y.numpy()])
+        RMSE = treelist[0].fit
+        rmse = [RMSE for i in range(len(calctest.numpy()))]
+        save_best(savepopdir, savename + str(run), [treelist[0]])
+        save_spreadsheet(savesheetdir, sheetname + str(run), [rmse, calctest.numpy(), test_y.numpy()])
+        del rmse
 
 
         tf.random.set_seed(1)

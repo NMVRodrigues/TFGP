@@ -36,6 +36,7 @@ def tournament(parents, popsize, tsize):
     while len(chosen) < popsize:
         r = [random.randint(0,popsize-1) for x in range(0,tsize)]
         append(parents[min(r)])
+    chosen = sorted(chosen, key=lambda x: x.fit)
     return chosen
 
 
