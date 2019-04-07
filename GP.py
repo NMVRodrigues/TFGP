@@ -26,9 +26,9 @@ tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "curvasRWC.csv"
-savename = "d2_t_norm"
+savename = "d2_t_fold"
 loadname = "lastgenSara.p"
-sheetname = "d2_t_norm"
+sheetname = "d2_t_fold"
 dsetpath = ".\\datasets"
 
 dset = os.path.join(dsetpath, csvname)
@@ -38,19 +38,31 @@ savesheetdir = '.\\sheets'
 sys.setrecursionlimit(100000)
 
 
-#training_x, training_y, test_x, test_y = load_data(dset)
+
 
 def main():
 
     lixo = []
     appendlixo = lixo.append
 
+    data = ten_fold(dset)
+
+
 
     run = 0
     start_time = time.time()
     while run < nruns:
         print("Parsing Data...")
-        training_x, training_y, test_x, test_y = load_data(dset)
+        #training_x, training_y, test_x, test_y = load_data(dset)
+        np.random.shuffle(data)
+        boxes = data
+        test = np.array(boxes.pop())
+        test_y = tf.convert_to_tensor(test[:, -1])
+        test_x = list(map(tf.convert_to_tensor, np.delete(test, -1, axis=1).T))
+        boxes = np.concatenate(boxes)
+        training_y = tf.convert_to_tensor(boxes[:, -1])
+        training_x = list(map(tf.convert_to_tensor, np.delete(boxes, -1, axis=1).T))
+
         set_data(training_x, training_y, test_x, test_y)
         print("number of run: ",run, '\n')
         cgen = 0
@@ -62,8 +74,8 @@ def main():
         while cgen < ngens:
             print("gen number : ",cgen)
 
-            #chosen = double_tournament(tournament(treelist, popsize, tournament_size), popsize)
-            chosen = tournament(treelist, popsize, tournament_size)
+            chosen = double_tournament(tournament(treelist, popsize, tournament_size), popsize)
+            #chosen = tournament(treelist, popsize, tournament_size)
 
             offspring = apply_operators(chosen, popsize, [])
 

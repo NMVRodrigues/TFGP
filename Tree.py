@@ -1,9 +1,6 @@
-import tensorflow as tf
 import random as rand
-import copy
-import statistics
 from Math import *
-#from GP import training_x, training_y, test_x, test_y
+from scipy.stats import pearsonr
 
 
 def set_data(training_x, training_y, test_x, test_y):
@@ -21,7 +18,7 @@ def set_data(training_x, training_y, test_x, test_y):
 #------------------------------------
 
 biFunctions = ['+', '-', '*', '//']
-uniFunctions = ['ln', 'sqrt']
+uniFunctions = ['ln', 'sqrt']#, 'synapse']
 maxDepth = 2
 
 
@@ -158,11 +155,16 @@ class Node(object):
                 result = divide(self.left.calculate(result, test), self.right.calculate(result, test))
             elif self.value == 'ln':
                 result = ln(self.left.calculate(result, test))
-            else:
+            elif self.value == 'sqrt':
                 result = sqrt(self.left.calculate(result, test))
+            else:
+                result = synapse(self.left.calculate(result, test))
         return result
 
-    # calculates the fitness of the tree
-    def fitness(self, result):
-        return tf.sqrt(tf.losses.mean_squared_error(labels,result)).numpy()
+    # RMSE
+    # def fitness(self, result):
+    #     return tf.sqrt(tf.losses.mean_squared_error(labels,result)).numpy()
 
+    # Pearson correlation
+    def fitness(self, result):
+        return pearsonr(labels.numpy(), result.numpy())[0] * 100

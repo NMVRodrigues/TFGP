@@ -4,6 +4,7 @@ import tensorflow as tf
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import gc
+import random
 '''
     File that manages the data inputs
 '''
@@ -28,6 +29,28 @@ def load_data(fname):
     gc.collect()
 
     return train_x, train_y, test_x, test_y
+
+
+def ten_fold(fname):
+    print("Parsing Data...")
+    df = pd.read_csv(fname, dtype=np.float64, engine='python', header=None)
+    size = len(df)
+    df = shuffle(df, random_state=None)
+    # splits into labels and features
+    X = df.values[:, list(range(0, len(df.columns)))]
+    boxes = []
+    for i in range(8):
+        box = []
+        for j in range(17):
+            box.append(random.choice(X))
+        boxes.append(box)
+    for i in range(2):
+        box = []
+        for j in range(18):
+            box.append(random.choice(X))
+        boxes.append(box)
+
+    return boxes
 
 
 
