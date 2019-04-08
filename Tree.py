@@ -18,7 +18,7 @@ def set_data(training_x, training_y, test_x, test_y):
 #------------------------------------
 
 biFunctions = ['+', '-', '*', '//']
-uniFunctions = ['ln', 'sqrt']#, 'synapse']
+uniFunctions = ['ln', 'sqrt', 'synapse']
 maxDepth = 2
 
 

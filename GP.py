@@ -26,9 +26,9 @@ tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "curvasRWC.csv"
-savename = "d2_t_mae"
+savename = "d2_t_syn_mae"
 loadname = "lastgenSara.p"
-sheetname = "d2_t_mae"
+sheetname = "d2_t_syn_mae"
 dsetpath = ".\\datasets"
 
 dset = os.path.join(dsetpath, csvname)
