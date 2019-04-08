@@ -24,7 +24,7 @@ real = []
 
 
 for dtf in df_arr:
-    rmse.append(dtf['RMSE'])
+    rmse.append(dtf['MAE'])
     predicted.append(dtf['predicted'])
     real.append(dtf['real'])
 

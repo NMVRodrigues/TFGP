@@ -47,8 +47,8 @@ def ramped_forest(popsize):
     grow_size = popsize - full_size
     full = full_forest(full_size, [])
     grow = grow_forest(grow_size, [])
-    #tree_lst = sorted(full+grow, key=lambda x: x.fit) #rmse
-    tree_lst = sorted(full + grow, key=lambda x: x.fit, reverse=True)
+    tree_lst = sorted(full+grow, key=lambda x: x.fit) #rmse
+    #tree_lst = sorted(full + grow, key=lambda x: x.fit, reverse=True)
     return tree_lst
 
 

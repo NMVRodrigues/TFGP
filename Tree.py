@@ -18,7 +18,7 @@ def set_data(training_x, training_y, test_x, test_y):
 #------------------------------------
 
 biFunctions = ['+', '-', '*', '//']
-uniFunctions = ['ln', 'sqrt', 'synapse']
+uniFunctions = ['ln', 'sqrt']#, 'synapse']
 maxDepth = 2
 
 
@@ -166,5 +166,8 @@ class Node(object):
     #     return tf.sqrt(tf.losses.mean_squared_error(labels,result)).numpy()
 
     # Pearson correlation
+    # def fitness(self, result):
+    #     return pearsonr(result.numpy(), labels.numpy())[0] * 100
+
     def fitness(self, result):
-        return pearsonr(result.numpy(), labels.numpy())[0] * 100
+         return (tf.metrics.mean_absolute_error(labels, result)).numpy()

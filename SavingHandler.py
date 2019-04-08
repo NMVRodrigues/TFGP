@@ -8,7 +8,7 @@ def save_spreadsheet(fpath, fname, l):
     training = pd.Series(l[1])
     test = pd.Series(l[2])
 
-    df = pd.DataFrame({'RMSE': rmse.values, 'predicted': training.values, 'real': test.values})
+    df = pd.DataFrame({'MAE': rmse.values, 'predicted': training.values, 'real': test.values})
     df.to_csv(os.path.join(fpath, fname + '.csv'), sep=";",  index=False)
 
 
