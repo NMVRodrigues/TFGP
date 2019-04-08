@@ -18,7 +18,7 @@ def set_data(training_x, training_y, test_x, test_y):
 #------------------------------------
 
 biFunctions = ['+', '-', '*', '//']
-uniFunctions = ['ln', 'sqrt']#, 'synapse']
+uniFunctions = ['ln', 'sqrt', 'synapse']
 maxDepth = 2
 
 
@@ -167,4 +167,4 @@ class Node(object):
 
     # Pearson correlation
     def fitness(self, result):
-        return pearsonr(labels.numpy(), result.numpy())[0] * 100
+        return pearsonr(result.numpy(), labels.numpy())[0] * 100

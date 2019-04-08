@@ -5,6 +5,7 @@ import multiprocessing as mp
 import random
 import time
 import itertools
+import sys
 
 
 
@@ -46,7 +47,8 @@ def ramped_forest(popsize):
     grow_size = popsize - full_size
     full = full_forest(full_size, [])
     grow = grow_forest(grow_size, [])
-    tree_lst = sorted(full+grow, key=lambda x: x.fit)
+    #tree_lst = sorted(full+grow, key=lambda x: x.fit) #rmse
+    tree_lst = sorted(full + grow, key=lambda x: x.fit, reverse=True)
     return tree_lst
 
 
@@ -57,6 +59,9 @@ def full_forest(popsize, tree_lst):
         sub_tree = t.Node().full(0)
         tree.size = sub_tree.number_of_nodes()
         calculated = sub_tree.calculate(0, False)
+        print(calculated, '\n')
+        print(calculated.numpy())
+        sys.exit()
         tree.globalvalue = calculated
         tree.fit = sub_tree.fitness(calculated)
         tree.root = sub_tree

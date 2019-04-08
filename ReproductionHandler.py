@@ -49,5 +49,6 @@ def apply_operators(parents, popsize, offspring):
             parent = copy.deepcopy(p)
             mutation(parent)
             appendof(p)
-    offspring = sorted(offspring, key=lambda x: x.fit)
+    #offspring = sorted(offspring, key=lambda x: x.fit) #rmse
+    offspring = sorted(offspring, key=lambda x: x.fit, reverse=True)
     return offspring
