@@ -92,7 +92,7 @@ def main():
             calctest = treelist[0].root.calculate(0, True)
 
 
-            print("RMSE: ", treelist[0].fit)
+            print("MAE: ", treelist[0].fit)
             print("size: ", treelist[0].size, '\n')
 
             appendlixo(0)
