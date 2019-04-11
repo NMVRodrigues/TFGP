@@ -8,7 +8,6 @@ import sys
 import pickle as cPickle
 import tensorflow as tf
 from SavingHandler import *
-
 import os
 
 
@@ -26,14 +25,14 @@ tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "curvasRWC.csv"
-savename = "d2_t_syn_mae"
+savename = "10fold_t_syn"
 loadname = "lastgenSara.p"
-sheetname = "d2_t_syn_mae"
-dsetpath = ".\\datasets"
+sheetname = "10fold_t_syn"
+dsetpath = '.' + os.sep + 'datasets'
 
 dset = os.path.join(dsetpath, csvname)
-savepopdir = '.\\individuals'
-savesheetdir = '.\\sheets'
+savepopdir = './individuals'
+savesheetdir = './sheets'
 # load = os.path.join(fpath,loadname)
 sys.setrecursionlimit(100000)
 
@@ -48,20 +47,19 @@ def main():
     data = ten_fold(dset)
 
 
-
     run = 0
     start_time = time.time()
     while run < nruns:
-        print("Parsing Data...")
-        training_x, training_y, test_x, test_y = load_data(dset)
-        #np.random.shuffle(data)
-        #boxes = data
-        #test = np.array(boxes.pop())
-        #test_y = tf.convert_to_tensor(test[:, -1])
-        #test_x = list(map(tf.convert_to_tensor, np.delete(test, -1, axis=1).T))
-        #boxes = np.concatenate(boxes)
-        #training_y = tf.convert_to_tensor(boxes[:, -1])
-        #training_x = list(map(tf.convert_to_tensor, np.delete(boxes, -1, axis=1).T))
+        print("Folding Data...")
+        #training_x, training_y, test_x, test_y = load_data(dset)
+        boxes = data
+        test, boxes = np.array(boxes[run]), boxes[run+1:]
+        test_y = tf.convert_to_tensor(test[:, -1])
+        test_x = list(map(tf.convert_to_tensor, np.delete(test, -1, axis=1).T))
+        boxes = np.concatenate(boxes)
+        training_y = tf.convert_to_tensor(boxes[:, -1])
+        training_x = list(map(tf.convert_to_tensor, np.delete(boxes, -1, axis=1).T))
+
 
         set_data(training_x, training_y, test_x, test_y)
         print("number of run: ",run, '\n')
