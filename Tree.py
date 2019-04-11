@@ -171,3 +171,6 @@ class Node(object):
 
     def fitness(self, result):
          return (tf.metrics.mean_absolute_error(labels, result)).numpy()
+
+    def test_fitness(self, result):
+         return (tf.metrics.mean_absolute_error(tlabels, result)).numpy()

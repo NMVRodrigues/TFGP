@@ -23,7 +23,7 @@ def sqrt(x):
 
 
 def synapse(x):
-    return tf.math.log(x + tf.math.sqrt(1 + x**2))
+    return tf.where(x >= 0., x*0,tf.math.log(x + tf.math.sqrt(1 + x**2)))
 
 def binary_round(x):
     result = tf.where(x >= 0.5, x/x, abs(x*0)) # result = where(value >= 0.5, 1, 0)

@@ -25,14 +25,14 @@ tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "curvasRWC.csv"
-savename = "10fold_t_syn"
+savename = "10fold_t_syn_non0"
 loadname = "lastgenSara.p"
-sheetname = "10fold_t_syn"
+sheetname = "10fold_t_syn_non0"
 dsetpath = '.' + os.sep + 'datasets'
 
 dset = os.path.join(dsetpath, csvname)
-savepopdir = './individuals'
-savesheetdir = './sheets'
+savepopdir = '.' + os.sep + 'individuals'
+savesheetdir = '.' + os.sep + 'sheets'
 # load = os.path.join(fpath,loadname)
 sys.setrecursionlimit(100000)
 
@@ -53,12 +53,15 @@ def main():
         print("Folding Data...")
         #training_x, training_y, test_x, test_y = load_data(dset)
         boxes = data
-        test, boxes = np.array(boxes[run]), boxes[run+1:]
+        print(len(boxes))
+        test, boxes = np.array(boxes[run]), np.delete(boxes,run,0)
         test_y = tf.convert_to_tensor(test[:, -1])
         test_x = list(map(tf.convert_to_tensor, np.delete(test, -1, axis=1).T))
         boxes = np.concatenate(boxes)
         training_y = tf.convert_to_tensor(boxes[:, -1])
         training_x = list(map(tf.convert_to_tensor, np.delete(boxes, -1, axis=1).T))
+
+
 
 
         set_data(training_x, training_y, test_x, test_y)
@@ -88,9 +91,11 @@ def main():
             del newgen
 
             calctest = treelist[0].root.calculate(0, True)
+            test_error = treelist[0].test_fitness(calctest)
 
 
             print("MAE: ", treelist[0].fit)
+            print("MAE Test: ", test_error)
             print("size: ", treelist[0].size, '\n')
 
             appendlixo(0)
@@ -99,6 +104,8 @@ def main():
             gc.collect()
             cgen += 1
 
+        calctest = treelist[0].root.calculate(0, True)
+        treelist[0].test_fitness(calctest)
         RMSE = treelist[0].fit
         rmse = [RMSE for i in range(len(calctest.numpy()))]
         save_best(savepopdir, savename + str(run), [treelist[0]])
