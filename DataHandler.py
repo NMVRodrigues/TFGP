@@ -39,15 +39,15 @@ def ten_fold(fname):
     # splits into labels and features
     X = df.values[:, list(range(0, len(df.columns)))]
     boxes = []
-    for i in range(8):
+    for _ in range(8):
         box = []
-        for j in range(17):
-            box.append(random.choice(X))
+        for _ in range(17):
+            box.append(X.pop())
         boxes.append(box)
-    for i in range(2):
+    for _ in range(2):
         box = []
-        for j in range(18):
-            box.append(random.choice(X))
+        for _ in range(18):
+            box.append(X.pop())
         boxes.append(box)
 
     return boxes
