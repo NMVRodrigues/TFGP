@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import numpy as np
 
-path = '.\\sheets\\'
+path = '.' + os.sep + 'sheets'+ os.sep
 
 files = []
 extend = files.extend

@@ -29,11 +29,11 @@ csvname = "breast_cancer_wis.csv"
 savename = "Maria"
 loadname = "lastgenSara.p"
 sheetname = "bcw"
-dsetpath = ".\\datasets"
+dsetpath = '.' + os.sep + 'datasets'
 
 dset = os.path.join(dsetpath, csvname)
-savepopdir = '.\\individuals'
-savesheetdir = '.\\sheets'
+savepopdir = '.' + os.sep + 'individuals'
+savesheetdir = '.' + os.sep + 'sheets'
 # load = os.path.join(fpath,loadname)
 sys.setrecursionlimit(100000)
 
