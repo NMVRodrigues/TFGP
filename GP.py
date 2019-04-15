@@ -18,16 +18,16 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 nruns = 10
 popsize = 500
 tsize = 5
-ngens = 100
+ngens = 500
 resume = False
 tournament_type = "tournament"
 tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "curvasRWC.csv"
-savename = "10fold_t_syn_non0"
+savename = "10fold_dt_syn_non0_500G_"
 loadname = "lastgenSara.p"
-sheetname = "10fold_t_syn_non0"
+sheetname = "10fold_dt_syn_non0_500G_"
 dsetpath = '.' + os.sep + 'datasets'
 
 dset = os.path.join(dsetpath, csvname)
@@ -50,7 +50,7 @@ def main():
     run = 0
     start_time = time.time()
     while run < nruns:
-        print("Folding Data...")
+        print("Folding Data1...")
         #training_x, training_y, test_x, test_y = load_data(dset)
         boxes = data
         print(len(boxes))
@@ -75,8 +75,8 @@ def main():
         while cgen < ngens:
             print("gen number : ",cgen)
 
-            #chosen = double_tournament(tournament(treelist, popsize, tournament_size), popsize)
-            chosen = tournament(treelist, popsize, tournament_size)
+            chosen = double_tournament(tournament(treelist, popsize, tournament_size), popsize)
+            #chosen = tournament(treelist, popsize, tournament_size)
 
             offspring = apply_operators(chosen, popsize, [])
 
@@ -91,7 +91,7 @@ def main():
             del newgen
 
             calctest = treelist[0].root.calculate(0, True)
-            test_error = treelist[0].test_fitness(calctest)
+            test_error = treelist[0].root.test_fitness(calctest)
 
 
             print("MAE: ", treelist[0].fit)
@@ -104,8 +104,8 @@ def main():
             gc.collect()
             cgen += 1
 
-        calctest = treelist[0].root.calculate(0, True)
-        treelist[0].test_fitness(calctest)
+        #calctest = treelist[0].root.calculate(0, True)
+        #treelist[0].test_fitness(calctest)
         RMSE = treelist[0].fit
         rmse = [RMSE for i in range(len(calctest.numpy()))]
         save_best(savepopdir, savename + str(run), [treelist[0]])
