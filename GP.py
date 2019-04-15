@@ -1,8 +1,8 @@
-from Tree import set_data
-from DataHandler import *
-from Forest import ramped_forest
-from Selection import select, elitism, tournament, double_tournament
-from ReproductionHandler import Generate_Offsprings, apply_operators
+from .Tree import set_data
+from .DataHandler import *
+from .Forest import ramped_forest
+from .Selection import select, elitism, tournament, double_tournament
+from .ReproductionHandler import Generate_Offsprings, apply_operators
 import time
 import sys
 import pickle as cPickle
@@ -26,7 +26,7 @@ tournament_size = 5
 forest_type = 'ramped_forest'
 
 csvname = "breast_cancer_wis.csv"
-savename = "Maria"
+savename = "Maria" #indivs
 loadname = "lastgenSara.p"
 sheetname = "bcw"
 dsetpath = '.' + os.sep + 'datasets'
@@ -34,11 +34,34 @@ dsetpath = '.' + os.sep + 'datasets'
 dset = os.path.join(dsetpath, csvname)
 savepopdir = '.' + os.sep + 'individuals'
 savesheetdir = '.' + os.sep + 'sheets'
-# load = os.path.join(fpath,loadname)
+# loaddir = os.path.join(fpath,loadname)
 sys.setrecursionlimit(100000)
 
 
-#training_x, training_y, test_x, test_y = load_data(dset)
+# class GPBC:
+#
+#     def __init__(self, nruns = 30, ngens = 100, popsize = 500, tournament_type = tournament, tournament_size = 5,
+#                 forest_type = ramped_forest, csvname = 'heart.csv', savename = 'Maria', sheetname = 'bcw',
+#                 dsetpath = '.' + os.sep + 'datasets', savepopdir = '.' + os.sep + 'individuals',
+#                 savesheetdir = '.' + os.sep + 'sheets',resume = False, loadname = None, loaddir = os.path.join(fpath,loadname)):
+#         self.nruns = nruns
+#         self.ngens = ngens
+#         self.popsize = popsize
+#         self.tournament_type = tournament_type
+#         self.tournament_size = tournament_size
+#         self.forest_type = forest_type
+#         self.csvname = csvname
+#         self.savename = savename
+#         self.sheetname = sheetname
+#         self.dsetpath = dsetpath
+#         self.savepopdir = savepopdir
+#         self.savesheetdir = savesheetdir
+#         self.resume = resume
+#         self.loadname = loadname
+#         self.loaddir = loaddir
+
+
+
 
 def main():
 
