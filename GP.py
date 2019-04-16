@@ -1,14 +1,14 @@
-from .Tree import set_data
-from .DataHandler import *
-from .Forest import ramped_forest
-from .Selection import select, elitism, tournament, double_tournament
-from .ReproductionHandler import Generate_Offsprings, apply_operators
+from Tree import set_data
+from DataHandler import *
+from Forest import ramped_forest
+from Selection import select, elitism, tournament, double_tournament
+from ReproductionHandler import Generate_Offsprings, apply_operators
 import time
 import sys
 import pickle as cPickle
 import tensorflow as tf
 from SavingHandler import *
-
+from pathlib import Path
 import os
 
 
@@ -25,13 +25,14 @@ tournament_type = "tournament"
 tournament_size = 5
 forest_type = 'ramped_forest'
 
-csvname = "breast_cancer_wis.csv"
+csvname = "sample.csv"
 savename = "Maria" #indivs
 loadname = "lastgenSara.p"
 sheetname = "bcw"
-dsetpath = '.' + os.sep + 'datasets'
+#dsetpath = '.' + os.sep + 'datasets'
+dsetpath = Path('datasets')
 
-dset = os.path.join(dsetpath, csvname)
+dset = os.path.join(dsetpath.resolve(), csvname)
 savepopdir = '.' + os.sep + 'individuals'
 savesheetdir = '.' + os.sep + 'sheets'
 # loaddir = os.path.join(fpath,loadname)
@@ -42,7 +43,7 @@ sys.setrecursionlimit(100000)
 #
 #     def __init__(self, nruns = 30, ngens = 100, popsize = 500, tournament_type = tournament, tournament_size = 5,
 #                 forest_type = ramped_forest, csvname = 'heart.csv', savename = 'Maria', sheetname = 'bcw',
-#                 dsetpath = '.' + os.sep + 'datasets', savepopdir = '.' + os.sep + 'individuals',
+#                 dsetpath = '.' + os.sep + 'datasets', savepopdir = '.'+os.sep+'individuals',
 #                 savesheetdir = '.' + os.sep + 'sheets',resume = False, loadname = None, loaddir = os.path.join(fpath,loadname)):
 #         self.nruns = nruns
 #         self.ngens = ngens
@@ -59,6 +60,9 @@ sys.setrecursionlimit(100000)
 #         self.resume = resume
 #         self.loadname = loadname
 #         self.loaddir = loaddir
+#
+#     def setup(self):
+
 
 
 
