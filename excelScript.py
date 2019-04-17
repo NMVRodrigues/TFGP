@@ -38,4 +38,4 @@ real = real.T
 predicted = predicted.T
 line_saparator = pd.Series([np.nan])
 
-pd.concat([line_saparator, rmse, line_saparator, predicted, line_saparator, real]).to_csv(os.path.join(path, "d2_dt_norm" + '.csv'), sep=";",  index=True)
+pd.concat([line_saparator, rmse, line_saparator, predicted, line_saparator, real]).to_csv(os.path.join(path, "10fold_dt_synNon0_500g" + '.csv'), sep=";",  index=True)
