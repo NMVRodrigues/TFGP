@@ -2,7 +2,7 @@ import tensorflow as tf
 import random as rand
 import copy
 import statistics
-from Math import *
+from Utils import *
 #from GP import training_x, training_y, test_x, test_y
 
 
