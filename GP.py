@@ -24,7 +24,7 @@ tournament_type = "tournament"
 tournament_size = 5
 forest_type = 'ramped_forest'
 
-csvname = "curvasRWC.csv"
+csvname = "breast_cancer_wis"
 savename = "10fold_dt_syn_non0_500G_"
 loadname = "lastgenSara.p"
 sheetname = "10fold_dt_syn_non0_500G_"
@@ -41,16 +41,13 @@ sys.setrecursionlimit(100000)
 
 def main():
 
-    lixo = []
-    appendlixo = lixo.append
-
     data = ten_fold(dset)
 
 
     run = 0
     start_time = time.time()
     while run < nruns:
-        print("Folding Data1...")
+        print("Folding Data...")
         #training_x, training_y, test_x, test_y = load_data(dset)
         boxes = data
         print(len(boxes))
@@ -98,14 +95,10 @@ def main():
             print("MAE Test: ", test_error)
             print("size: ", treelist[0].size, '\n')
 
-            appendlixo(0)
-
             tf.random.set_seed(1)
             gc.collect()
             cgen += 1
 
-        #calctest = treelist[0].root.calculate(0, True)
-        #treelist[0].test_fitness(calctest)
         RMSE = treelist[0].fit
         rmse = [RMSE for i in range(len(calctest.numpy()))]
         save_best(savepopdir, savename + str(run), [treelist[0]])
@@ -116,7 +109,6 @@ def main():
         tf.random.set_seed(1)
         gc.collect()
         run += 1
-        #treelist[0][0].print_tree()
     print("--- %s seconds ---" % (time.time() - start_time))
 
 

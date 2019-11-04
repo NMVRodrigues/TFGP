@@ -1,5 +1,5 @@
 import random as rand
-from Math import *
+from Utils import *
 from scipy.stats import pearsonr
 
 
